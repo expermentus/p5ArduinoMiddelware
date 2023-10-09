@@ -5,7 +5,15 @@ const mqtt = require('mqtt');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send("The temperature is: " + mes + "The humidity is: " + mes2);
+  let mess = NaN;
+  res.send("<p>The temperature is: " + mes + " </p> <p>The humidity is: " + mes2 + "</p>");
+  while (true){
+    if (mes !== mess){
+      res.redirect('users')
+      break
+    }
+  }
+
 });
 
 module.exports = router;
