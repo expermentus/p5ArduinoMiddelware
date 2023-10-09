@@ -1,8 +1,12 @@
 body {
+  --input-focus: #0E387A;
+  --font-color: #9FAFCA;
+  --font-color-sub: #0E387A;
+  --bg-color: white;
+  --main-color: #9FAFCA;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #252525;
-  color: #e8697a;
+  background-color: white;
 }
 
 .container {
@@ -22,11 +26,6 @@ body {
 
 
 .button {
-  --input-focus: #8a95fe;
-  --font-color: #de452a;
-  --font-color-sub: #e8697a;
-  --bg-color: #7e387a;
-  --main-color: #de452a;
   width: 150px;
   height: 60px;
   border-radius: 5px;
@@ -47,11 +46,6 @@ body {
 
 
 .form {
-  --input-focus: #8a95fe;
-  --font-color: #de452a;
-  --font-color-sub: #e8697a;
-  --bg-color: #7e387a;
-  --main-color: #de452a;
   width: 300px;
   padding: 20px;
   background: var(--bg-color);
