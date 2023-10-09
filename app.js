@@ -12,6 +12,35 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const mqtt = require('mqtt');
+
+// Define the MQTT broker and port
+const brokerAddress = 'mqtt://test.mosquitto.org';
+const topic = 'real_unique_topic';
+
+
+
+
+// Create an MQTT client
+const client = mqtt.connect(brokerAddress);
+
+// Callback function to handle incoming messages
+client.on('message', (topic, message) => {
+  console.log(`Received message on topic '${topic}': ${message.toString()}`);
+  global.mes = message.toString();
+});
+
+// Connect to the MQTT broker
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  client.subscribe(topic);
+});
+
+// Handle errors
+client.on('error', (error) => {
+  console.error(`Error: ${error}`);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -25,10 +54,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-const connectionManager = require('./connectionManager');
+//const connectionManager = require('./connectionManager');
 const fs = require("fs"); // Replace with the actual path to your ConnectionManager module
 
-const connection = connectionManager.getConnection();
+//const connection = connectionManager.getConnection();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

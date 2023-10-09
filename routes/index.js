@@ -3,7 +3,7 @@ var router = express.Router();
 const mysql = require('mysql2');
 const fs = require('fs');
 const env = require('dotenv');
-const {getConnection} = require("../connectionManager");
+//const {getConnection} = require("../connectionManager");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
