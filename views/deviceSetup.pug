@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    div(class='text-center center')
+        button.button(onclick="toggleFormVisibility()")
+            span.text New device
+
+        div.form-container(style="display: none;")
+            div(class='text-center center')
+                form.form(method='POST' action='/deviceSetup')
+                    div(class='center')
+                        .title
+                            | Register,
+                            br
+                            span insert the information about the device
+                        input(type="string", placeholder="Device Name", name="name", class="input", required=true)
+                        input(type="string", placeholder="Model Name", name="model_name", class="input", required=true)
+                        input(type="int", placeholder="Number of pins", name="number_of_pins", class="input", required=true)
+                        input(type="string", placeholder="Something", name="something1", class="input", required=true)
+                        input(type="string", placeholder="Something", name="something2", class="input", required=true)
+                        button.button-confirm Let's go →
+
+    script.
+        function toggleFormVisibility() {
+            var formDiv = document.querySelector('.form-container');
+            formDiv.style.display = (formDiv.style.display === 'none' || formDiv.style.display === '') ? 'block' : 'none';
+        }
+
+        function redirectTo(url) {
+            window.location.href = url;
+        }
