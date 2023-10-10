@@ -7,12 +7,18 @@ html
 body
   head
     title= title
+
+
+
+  body
     div(class='container')
       div(class='element')
         button.button(onclick='redirectTo("http://localhost:3000")')
           span.text Home
-
-
-  body
-
     block content
+
+  script.
+    function redirectTo(url) {
+      window.location.href = url;
+    }
+

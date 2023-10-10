@@ -17,6 +17,23 @@ body {
   margin-bottom: 80px;
 }
 
+.container-wrapper {
+  display: flex;
+}
+
+.container-left {
+  flex: 1; /* Adjust the width as needed */
+  padding: 10px; /* Optional padding for container-left */
+}
+
+.container-right {
+  flex: 1; /* Adjust the width as needed */
+  padding: 10px; /* Optional padding for container-right */
+}
+
+/* Add any other styles as needed */
+
+
 .element {
   position: absolute;
   top: 0;

@@ -24,13 +24,26 @@ const client = mqtt.connect(brokerAddress);
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
 
+global.listMes = [];
+global.listMes2 = [];
+
+
+
 // Callback function to handle incoming messages
 client.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
   if (topic.toString() === 'real_unique_topic'){
     global.mes =  message.toString();
+    listMes.push(mes)
+    if (listMes.length > 10) {
+      listMes.shift(); // Remove the oldest item
+    }
   } else {
     global.mes2 = message.toString();
+    listMes2.push(mes2)
+    if (listMes2.length > 10) {
+      listMes2.shift(); // Remove the oldest item
+    }
   }
 
 });
@@ -68,14 +81,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-//const connectionManager = require('./connectionManager');
+const connectionManager = require('./connectionManager');
 const fs = require("fs"); // Replace with the actual path to your ConnectionManager module
 
-//const connection = connectionManager.getConnection();
+const connection = connectionManager.getConnection();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+});
+
+app.get('/listMes', function(req, res, next) {
+  res.json(listMes);
+});
+
+app.get('/listMes2', function(req, res, next) {
+  res.json(listMes2);
 });
 
 // error handler
