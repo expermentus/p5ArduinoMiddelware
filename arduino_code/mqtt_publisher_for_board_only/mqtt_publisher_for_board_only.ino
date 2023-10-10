@@ -25,8 +25,8 @@ int count = 0;
 
 void setup() {
   //Initialize serial and wait for port to open:
-  //carrier.noCase();
-  //carrier.begin();
+  carrier.noCase();
+  carrier.begin();
   carrier.display.fillScreen(0xF800);
 
 
