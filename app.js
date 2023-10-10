@@ -16,7 +16,7 @@ const mqtt = require('mqtt');
 
 // Define the MQTT broker and port
 const brokerAddress = 'mqtt://test.mosquitto.org';
-const topics = ['real_unique_topic', 'real_unique_topic_2']; // Topics to subscribe to
+const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to
 
 
 // Create an MQTT client
@@ -32,7 +32,7 @@ global.listMes2 = [];
 // Callback function to handle incoming messages
 client.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
-  if (topic.toString() === 'real_unique_topic'){
+  if (topic.toString() === 'middelware_temperature_topic'){
     global.mes =  message.toString();
     listMes.push(mes)
     if (listMes.length > 10) {
