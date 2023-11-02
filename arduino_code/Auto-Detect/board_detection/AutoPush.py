@@ -2,15 +2,15 @@ import re
 from serial.tools import list_ports
 from boards import boards_dict
 from detection import check_ports
-from everywhereml.arduino import Sketch, Ino, H, Cli
+from everywhereml.arduino import Sketch, Ino, H
+from everywhereml.arduino.Cli import Cli
 
 arduinos, notarduinos = check_ports()
 
 sketch = Sketch(name="green", folder="tests")
 
 cli = Cli
-
-Cli.configure_exe(cli, 'arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe')
+cli.configure_exe(cli, 'arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe')
 
 for i in range(len(arduinos)):
     print("Boards:")
