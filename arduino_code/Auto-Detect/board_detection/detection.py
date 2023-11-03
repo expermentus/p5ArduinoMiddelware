@@ -48,3 +48,4 @@ if __name__ == "__main__":
     # Print non-Arduino connections
     for nard in not_arduinos:
         print("Non-Arduino Connection:", nard)
+
