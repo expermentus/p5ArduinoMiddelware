@@ -21,6 +21,8 @@ class Compiler:
             return 'NONE'
 
     def compile(self):
+        # runs command: arduino-cli compile -b (fqbn) -u (sketch_path) -p (COM)
+        # variables:    'cli_path' compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
         command = f"'{self.cli_path}' compile -b '{self.fqbn}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
         stripped_command = str(re.sub(r"['\[\]]", "", command))
         print(stripped_command)
