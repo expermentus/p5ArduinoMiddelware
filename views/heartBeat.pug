@@ -1,22 +1,31 @@
 extends layout
 
 block content
-    div(class='container')
-        button.button(onclick="refreshPage()")
-            span.text Refresh
+    div(class='cartoon-container')
+        if !results
+            p No devices found
+        else
+            ul
+                each item in results
+                    li= 'Model name: ' + item.model_name
+                    li= 'Use case: ' + item.chosen_usecase
+                div(class='container')
+                    button.button(onclick="refreshPage()")
+                        span.text Refresh
 
-    div(class='container-wrapper')
-        div(class='container-left')
-            div(id='list-container-left', class='list-element')
-                ul
-                    each item in listMes.slice(0, 10)
-                        li= 'Temperature is ' + item
+                div(class='container-wrapper')
+                    div(class='container-left')
+                        div(id='list-container-left', class='list-element')
+                            ul
+                                each item in listMes.slice(0, 10)
+                                    li= 'Temperature is ' + item
 
-        div(class='container-right')
-            div(id='list-container-right', class='list-element')
-                ul
-                    each item in listMes2.slice(0, 10)
-                        li= 'Humidity is ' + item
+                    div(class='container-right')
+                        div(id='list-container-right', class='list-element')
+                            ul
+                                each item in listMes2.slice(0, 10)
+                                    li= 'Humidity is ' + item
+
 
     script.
         function refreshPage() {

@@ -3,7 +3,7 @@ var router = express.Router();
 const mysql = require('mysql2');
 const fs = require('fs');
 const env = require('dotenv');
-//const {getConnection} = require("../connectionManager");
+const {getConnection} = require("../connectionManager");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,11 +16,11 @@ router.get('/deviceSetup', function(req, res, next) {
 });
 
 router.post('/deviceSetup', async(req,res) =>{
-  const {name, model_name, number_of_pins, something1, something2} = req.body;
+  const {name, model_name, number_of_pins, chosen_usecase} = req.body;
 
   // Insert data into the database
-  const sql = 'INSERT INTO devices (name, model_name, number_of_pins, something1, something2) VALUES (?, ?, ?, ?, ?)';
-  const values = [name, model_name, number_of_pins, something1, something2];
+  const sql = 'INSERT INTO devices (name, model_name, number_of_pins, chosen_usecase) VALUES (?, ?, ?, ?)';
+  const values = [name, model_name, number_of_pins, chosen_usecase];
 
   getConnection().query(sql, values, (err, result) => {
     if (err) {

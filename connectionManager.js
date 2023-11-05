@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: process.env.DB_USERNAME, // Replace with your database username
     password: process.env.DB_PASSWORD, // Replace with your database password
-    database: 'selfservice',
+    database: 'idiot_middleware',
     charset: 'utf8mb4', // Character encoding (optional)
 });
 
