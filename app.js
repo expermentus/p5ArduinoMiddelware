@@ -24,8 +24,8 @@ const client = mqtt.connect(brokerAddress);
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
 
-global.listMes = [];
-global.listMes2 = [];
+global.listMes = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
+global.listMes2 = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 
 
 

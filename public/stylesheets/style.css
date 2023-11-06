@@ -6,31 +6,29 @@ body {
   --main-color: #9FAFCA;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: white;
+  background-color: mintcream;
 }
 
 .cartoon-container {
-  width: 300px;
+  width: 400px;
   padding: 20px;
-  background: var(--bg-color);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
   gap: 20px;
+  background: var(--bg-color);
+  display: inline-block;
   border-radius: 5px;
   border: 2px solid var(--main-color);
   box-shadow: 4px 4px var(--main-color);
-  margin-right: auto;
-  margin-left: 60px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  flex: 1;
+  position: relative;
 }
-
 
 .container {
   position: relative;
   width: 100%;
   height: 80px; /* Adjust the height as needed */
-
+  display: flex;
   margin-bottom: 80px;
 }
 
@@ -39,25 +37,24 @@ body {
 }
 
 .container-left {
-  flex: 1; /* Adjust the width as needed */
-  padding: 10px; /* Optional padding for container-left */
+  width: 150px
 }
 
 .container-right {
-  flex: 1; /* Adjust the width as needed */
-  padding: 10px; /* Optional padding for container-right */
+  width: 150px;
 }
 
 /* Add any other styles as needed */
 
 
 .element {
-  position: absolute;
+  position: relative;
   top: 0;
-  right: -240px;
-  padding: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0px;
+  margin-top: -30px;
 }
-
 
 .button {
   width: 150px;
@@ -70,7 +67,7 @@ body {
   font-weight: 600;
   color: var(--font-color);
   cursor: pointer;
-  margin-bottom: 15px;
+  margin: 15px;
 }
 
 .button:active {
@@ -175,7 +172,26 @@ body {
   cursor: pointer;
 }
 
+.left {
+  margin-left: -5px;
+  width: 100%;
+}
+
 .center {
   margin-left: auto;
   margin-right: auto;
+}
+
+.refresh {
+  position: relative;
+  top: 0px;
+  left: -230px;
+  margin-top: 0px;
+  margin-bottom: 25px;
+}
+
+.image {
+  height: 150px;
+  width: auto;
+  border-radius: 105px;
 }
