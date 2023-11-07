@@ -1,7 +1,6 @@
 import re
 from detection import check_ports
 from compiler import Compiler
-import os
 
 arduinos, notarduinos = check_ports()
 
