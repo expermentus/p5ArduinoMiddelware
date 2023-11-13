@@ -12,19 +12,19 @@ class FetchCredentialsStub(object):
         """Constructor.
 
         Args:
-            channel: A grpc_stuff.Channel.
+            channel: A grpc.Channel.
         """
-        self.FetchRequest = channel.unary_unary(
-                '/FetchCredentials/FetchRequest',
-                request_serializer=init__pb2.Input.SerializeToString,
-                response_deserializer=init__pb2.Credentials.FromString,
+        self.SendArduinos = channel.unary_unary(
+                '/FetchCredentials/SendArduinos',
+                request_serializer=init__pb2.Arduinos.SerializeToString,
+                response_deserializer=init__pb2.ChoiceAndCredentials.FromString,
                 )
 
 
 class FetchCredentialsServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def FetchRequest(self, request, context):
+    def SendArduinos(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +33,10 @@ class FetchCredentialsServicer(object):
 
 def add_FetchCredentialsServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'FetchRequest': grpc.unary_unary_rpc_method_handler(
-                    servicer.FetchRequest,
-                    request_deserializer=init__pb2.Input.FromString,
-                    response_serializer=init__pb2.Credentials.SerializeToString,
+            'SendArduinos': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendArduinos,
+                    request_deserializer=init__pb2.Arduinos.FromString,
+                    response_serializer=init__pb2.ChoiceAndCredentials.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +49,7 @@ class FetchCredentials(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def FetchRequest(request,
+    def SendArduinos(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class FetchCredentials(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/FetchCredentials/FetchRequest',
-            init__pb2.Input.SerializeToString,
-            init__pb2.Credentials.FromString,
+        return grpc.experimental.unary_unary(request, target, '/FetchCredentials/SendArduinos',
+            init__pb2.Arduinos.SerializeToString,
+            init__pb2.ChoiceAndCredentials.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
