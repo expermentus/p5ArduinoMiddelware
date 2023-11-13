@@ -1,6 +1,6 @@
 import re
 from serial.tools import list_ports
-from boards import boards_dict
+from dicts.boards import boards_dict
 
 
 def check_ports():

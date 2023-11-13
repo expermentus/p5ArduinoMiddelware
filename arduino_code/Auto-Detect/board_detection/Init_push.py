@@ -1,4 +1,5 @@
 import re
+import grpc
 from detection import check_ports
 from compiler import Compiler
 

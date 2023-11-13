@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service FetchCredentials {
+  rpc FetchRequest (Input) returns (Credentials);
+}
+
+message Input{
+  bool check = 1;
+}
+
+message Credentials {
+  string ssid = 1;
+  string password = 2;
+}

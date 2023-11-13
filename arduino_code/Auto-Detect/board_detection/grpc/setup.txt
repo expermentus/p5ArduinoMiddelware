@@ -1,0 +1,3 @@
+When in same dir as the .proto file
+run:
+python -m grpc_tools.protoc --proto_path=. ./init.proto --python_out=. --grpc_python_out=.

@@ -1,5 +1,5 @@
 import os, re
-from fqbn_dict import fqbn
+from dicts.fqbn_dict import fqbn
 
 
 class Compiler:
