@@ -3,13 +3,19 @@ import grpc
 from detection import check_ports
 from compiler import Compiler
 from generate_init import generate_init
+from grpc_stuff import init_pb2, init_pb2_grpc
 arduinos, notarduinos = check_ports()
 
+channel = "???" #TODO uhm what channel :D?
+
+# grpc stub:
+stub = init_pb2_grpc.FetchCredentialsStub(channel)
 
 for i in range(len(arduinos)):
     print("Boards:")
     print(i + 1, ":", arduinos[i][0], arduinos[i][1])
 
+arduinos_to_send = init_pb2.Arduinos(Arduino=arduinos[0])
 SSID, Password = '', ''
 
 generate_init("test", SSID, Password)
