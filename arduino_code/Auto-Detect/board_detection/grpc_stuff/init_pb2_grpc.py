@@ -12,7 +12,7 @@ class FetchCredentialsStub(object):
         """Constructor.
 
         Args:
-            channel: A grpc.Channel.
+            channel: A grpc_stuff.Channel.
         """
         self.FetchRequest = channel.unary_unary(
                 '/FetchCredentials/FetchRequest',

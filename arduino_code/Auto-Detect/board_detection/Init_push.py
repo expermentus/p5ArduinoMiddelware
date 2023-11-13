@@ -2,12 +2,16 @@ import re
 import grpc
 from detection import check_ports
 from compiler import Compiler
-
+from generate_init import generate_init
 arduinos, notarduinos = check_ports()
 
 for i in range(len(arduinos)):
     print("Boards:")
     print(i + 1, ":", arduinos[i][0], arduinos[i][1])
+
+SSID, Password = '', ''
+
+generate_init("test", SSID, Password)
 
 arduino_name = ''
 arduino_port = ''
