@@ -3,6 +3,7 @@ import grpc
 from detection import check_ports
 from compiler import Compiler
 from generate_init import generate_init
+from grpc_stuff import init_pb2, init_pb2_grpc
 arduinos, notarduinos = check_ports()
 
 for i in range(len(arduinos)):
