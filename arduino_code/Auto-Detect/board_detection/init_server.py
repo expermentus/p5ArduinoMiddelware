@@ -8,10 +8,8 @@ import init_pb2, init_pb2_grpc
 class init_servicer(init_pb2_grpc.FetchCredentialsServicer):
     def SetupArduinos(self, request, context):
         print("1")
-        for i in range(len(request)):
-            print(i, request[i])
-        print("2")
-        choice = input("choose a device: ")
+        print(request.arduino)
+        choice = int(input("choose a device: "))
         ssid = input("ssid: ")
         password = input("password: ")
         devices = 1  # læs antal devices i database
