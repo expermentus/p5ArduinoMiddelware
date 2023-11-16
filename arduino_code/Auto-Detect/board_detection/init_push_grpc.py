@@ -3,45 +3,67 @@ import grpc
 from detection import check_ports
 from compiler import Compiler
 from generate_init import generate_init
-from grpc_stuff import init_pb2, init_pb2_grpc
-arduinos, notarduinos = check_ports()
+import init_pb2, init_pb2_grpc
 
-# channel = "???" #TODO uhm what channel :D?
 
-channel = "localhost:55555"
+def upload(stub):
+    arduinos, notarduinos = check_ports()
 
-# grpc stub:
-stub = init_pb2_grpc.FetchCredentialsStub(channel)
-
-for i in range(len(arduinos)):
-    print("Boards:")
-    print(i + 1, ":", arduinos[i][0], arduinos[i][1])
-
-arduinos_to_send = init_pb2.Arduinos(Arduino=arduinos[0])
-SSID, Password = '', ''
-
-generate_init("test", SSID, Password)
-
-arduino_name = ''
-arduino_port = ''
-while 1:
     if len(arduinos) == 0:
-        break
-    selected = int(input("Select board: "))
+        arduinos.append("Arduino Uno WiFi Rev2")
 
-    try:
-        arduino = arduinos[selected - 1]
-        arduino_name = str(re.sub(r"['\[\]]", "", arduino[0][0]))
-        arduino_port = str(arduino[1][0])
-        break
+    arduinos_to_send = init_pb2.Arduinos(arduino=arduinos[0])
+    response = stub.fetch_credentials(arduinos_to_send)
 
-    except IndexError:
-        print("index out of range")
+    while response is None:
+        pass
 
-compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
-                    sketch_path='tests/red',
-                    board=arduino_name,
-                    COM_PORT=arduino_port,
-                    )
+    SSID = response.ssid
+    Password = response.password
+    stopic = response.stopic
+    mqttun = response.mqttun
+    mqttps = response.mqttps
 
-compiler.compile()
+    generate_init("test", SSID=SSID, Password=Password, stopic=stopic, mqttun=mqttun, mqttps=mqttps)
+
+    arduino_name = arduinos[response.choice + 1]
+    arduino_port = ''
+    while 1:
+        if len(arduinos) == 0:
+            break
+        selected = response.choice
+
+        try:
+            arduino = arduinos[selected - 1]
+            arduino_name = str(re.sub(r"['\[\]]", "", arduino[0][0]))
+            arduino_port = str(arduino[1][0])
+            break
+
+        except IndexError:
+            print("index out of range")
+
+    dump_path = f'tests/sketch'
+
+    compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
+                        sketch_path=dump_path,
+                        board=arduino_name,
+                        COM_PORT=arduino_port,
+                        )
+
+    compiler.compile()
+
+    # os.remove('dump_path')
+
+
+def run():
+    # channel = "???" #TODO uhm what channel :D?
+    with grpc.insecure_channel("localhost:50050") as channel:
+        # grpc stub:
+        stub = init_pb2_grpc.FetchCredentialsStub(channel)
+        upload(stub)
+        channel.close()
+
+
+# Running the client
+if __name__ == "__main__":
+    run()

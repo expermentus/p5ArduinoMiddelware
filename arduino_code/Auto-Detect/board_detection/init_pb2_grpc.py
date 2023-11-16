@@ -20,6 +20,9 @@ class FetchCredentialsStub(object):
                 response_deserializer=init__pb2.ChoiceAndCredentials.FromString,
                 )
 
+    def fetch_credentials(self, arduinos_to_send):
+        pass
+
 
 class FetchCredentialsServicer(object):
     """Missing associated documentation comment in .proto file."""
