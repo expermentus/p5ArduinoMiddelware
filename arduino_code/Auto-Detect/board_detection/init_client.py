@@ -6,7 +6,7 @@ from generate_init import generate_init
 import init_pb2, init_pb2_grpc
 
 
-def upload(stub):
+def SetupArduinos(stub):
     arduinos, notarduinos = check_ports()
 
     if len(arduinos) == 0:
@@ -58,7 +58,7 @@ def run():
     with grpc.insecure_channel("localhost:50050") as channel:
         # grpc stub:
         stub = init_pb2_grpc.FetchCredentialsStub(channel)
-        upload(stub)
+        SetupArduinos(stub)
         channel.close()
 
 
