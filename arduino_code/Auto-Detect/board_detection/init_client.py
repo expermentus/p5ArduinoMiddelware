@@ -1,4 +1,5 @@
 import re
+import os
 import grpc
 from detection import check_ports
 from compiler import Compiler
@@ -10,21 +11,21 @@ def SetupArduinos(stub):
     arduinos, notarduinos = check_ports()
 
     if len(arduinos) == 0:
-        arduinos.append("Arduino Uno WiFi Rev2")
+        arduinos.append("Arduino Uno WiFi Rev2", "COM0")
         print("1")
     print("2")
-    arduino = arduinos[0]
+    arduino = arduinos[0][0]
     response = stub.SetupArduinos(init_pb2.Arduinos(arduino=arduino))
 
     SSID = response.ssid
     Password = response.password
     stopic = response.stopic
     mqttun = response.mqttun
-    mqttps = response.mqttps
+    mqttpw = response.mqttpw
 
-    generate_init("test", SSID=SSID, Password=Password, stopic=stopic, mqttun=mqttun, mqttps=mqttps)
+    generate_init("test", SSID=SSID, Password=Password, stopic=stopic, mqttun=mqttun, mqttpw=mqttpw)
 
-    arduino_name = arduinos[response.choice + 1]
+    arduino_name = arduinos[response.choice - 1]
     arduino_port = ''
     while 1:
         if len(arduinos) == 0:
@@ -40,7 +41,7 @@ def SetupArduinos(stub):
         except IndexError:
             print("index out of range")
 
-    dump_path = f'tests/sketch'
+    dump_path = os.path.abspath('tests/test')
 
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path=dump_path,

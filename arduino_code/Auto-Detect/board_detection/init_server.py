@@ -18,7 +18,7 @@ class init_servicer(init_pb2_grpc.FetchCredentialsServicer):
         topic = f"IDIoT/device_{devices}"
 
         mqttun = "mqtt_username"
-        mqttps = "mqtt_password"
+        mqttpw = "mqtt_password"
 
         return init_pb2.ChoiceAndCredentials(
             choice=choice,
@@ -26,7 +26,7 @@ class init_servicer(init_pb2_grpc.FetchCredentialsServicer):
             password=password,
             stopic=topic,
             mqttun=mqttun,
-            mqttps=mqttps
+            mqttpw=mqttpw
         )
 
 

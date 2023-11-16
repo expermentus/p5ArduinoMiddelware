@@ -2,7 +2,7 @@ import os
 from everywhereml.arduino import Sketch, Ino
 
 
-def generate_init(name, SSID, Password, stopic, mqttun, mqttps):
+def generate_init(name, SSID, Password, stopic, mqttun, mqttpw):
     # elegant code to seamlessly import variables in .ino code
 
     sketch = Sketch(name=name, folder=os.path.abspath('tests'))
@@ -21,7 +21,7 @@ def generate_init(name, SSID, Password, stopic, mqttun, mqttps):
     char pass[] = {Password};    // your network password (use for WPA, or use as key for WEP)
     char stopic[] = {stopic};
     char mqttun[] = {mqttun};
-    char mqttps[] = {mqttps};
+    char mqttpw[] = {mqttpw};
     
     NOT DONE!!!!!!!!!!!!!!
     
