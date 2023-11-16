@@ -1,15 +1,18 @@
 syntax = "proto3";
 
 service FetchCredentials {
-  rpc SendArduinos (Arduinos) returns (ChoiceAndCredentials);
+  rpc SetupArduinos (Arduinos) returns (ChoiceAndCredentials);
 }
 
 message ChoiceAndCredentials{
-  int32 Choice = 1;
-  string SSID = 2;
-  string Password = 3;
+  int32 choice = 1;
+  string ssid = 2;
+  string password = 3;
+  string stopic = 4;
+  string mqttun = 5;
+  string mqttpw = 6;
 }
 
 message Arduinos{
-  repeated string Arduino = 1;
+  repeated string arduino = 1;
 }
