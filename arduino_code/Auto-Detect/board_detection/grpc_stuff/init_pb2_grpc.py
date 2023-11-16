@@ -14,8 +14,8 @@ class FetchCredentialsStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendArduinos = channel.unary_unary(
-                '/FetchCredentials/SendArduinos',
+        self.SetupArduinos = channel.unary_unary(
+                '/FetchCredentials/SetupArduinos',
                 request_serializer=init__pb2.Arduinos.SerializeToString,
                 response_deserializer=init__pb2.ChoiceAndCredentials.FromString,
                 )
@@ -24,7 +24,7 @@ class FetchCredentialsStub(object):
 class FetchCredentialsServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SendArduinos(self, request, context):
+    def SetupArduinos(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,8 +33,8 @@ class FetchCredentialsServicer(object):
 
 def add_FetchCredentialsServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendArduinos': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendArduinos,
+            'SetupArduinos': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetupArduinos,
                     request_deserializer=init__pb2.Arduinos.FromString,
                     response_serializer=init__pb2.ChoiceAndCredentials.SerializeToString,
             ),
@@ -49,7 +49,7 @@ class FetchCredentials(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SendArduinos(request,
+    def SetupArduinos(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,7 +59,7 @@ class FetchCredentials(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/FetchCredentials/SendArduinos',
+        return grpc.experimental.unary_unary(request, target, '/FetchCredentials/SetupArduinos',
             init__pb2.Arduinos.SerializeToString,
             init__pb2.ChoiceAndCredentials.FromString,
             options, channel_credentials,

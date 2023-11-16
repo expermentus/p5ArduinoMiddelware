@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ninit.proto\"F\n\x14\x43hoiceAndCredentials\x12\x0e\n\x06\x43hoice\x18\x01 \x01(\x05\x12\x0c\n\x04SSID\x18\x02 \x01(\t\x12\x10\n\x08Password\x18\x03 \x01(\t\"\x1b\n\x08\x41rduinos\x12\x0f\n\x07\x41rduino\x18\x01 \x03(\t2D\n\x10\x46\x65tchCredentials\x12\x30\n\x0cSendArduinos\x12\t.Arduinos\x1a\x15.ChoiceAndCredentialsb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ninit.proto\"v\n\x14\x43hoiceAndCredentials\x12\x0e\n\x06\x63hoice\x18\x01 \x01(\x05\x12\x0c\n\x04ssid\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0e\n\x06stopic\x18\x04 \x01(\t\x12\x0e\n\x06mqttun\x18\x05 \x01(\t\x12\x0e\n\x06mqttpw\x18\x06 \x01(\t\"\x1b\n\x08\x41rduinos\x12\x0f\n\x07\x61rduino\x18\x01 \x03(\t2E\n\x10\x46\x65tchCredentials\x12\x31\n\rSetupArduinos\x12\t.Arduinos\x1a\x15.ChoiceAndCredentialsb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -21,9 +21,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'init_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_CHOICEANDCREDENTIALS']._serialized_start=14
-  _globals['_CHOICEANDCREDENTIALS']._serialized_end=84
-  _globals['_ARDUINOS']._serialized_start=86
-  _globals['_ARDUINOS']._serialized_end=113
-  _globals['_FETCHCREDENTIALS']._serialized_start=115
-  _globals['_FETCHCREDENTIALS']._serialized_end=183
+  _globals['_CHOICEANDCREDENTIALS']._serialized_end=132
+  _globals['_ARDUINOS']._serialized_start=134
+  _globals['_ARDUINOS']._serialized_end=161
+  _globals['_FETCHCREDENTIALS']._serialized_start=163
+  _globals['_FETCHCREDENTIALS']._serialized_end=232
 # @@protoc_insertion_point(module_scope)

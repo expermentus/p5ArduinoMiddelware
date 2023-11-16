@@ -6,7 +6,9 @@ from generate_init import generate_init
 from grpc_stuff import init_pb2, init_pb2_grpc
 arduinos, notarduinos = check_ports()
 
-channel = "???" #TODO uhm what channel :D?
+# channel = "???" #TODO uhm what channel :D?
+
+channel = "localhost:55555"
 
 # grpc stub:
 stub = init_pb2_grpc.FetchCredentialsStub(channel)
