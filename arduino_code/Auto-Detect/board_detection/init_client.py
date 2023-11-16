@@ -11,12 +11,10 @@ def upload(stub):
 
     if len(arduinos) == 0:
         arduinos.append("Arduino Uno WiFi Rev2")
-
-    arduinos_to_send = init_pb2.Arduinos(arduino=arduinos[0])
-    response = stub.fetch_credentials(arduinos_to_send)
-
-    while response is None:
-        pass
+        print("1")
+    print("2")
+    arduino = arduinos[0]
+    response = stub.SetupArduinos(init_pb2.Arduinos(arduino=arduino))
 
     SSID = response.ssid
     Password = response.password
