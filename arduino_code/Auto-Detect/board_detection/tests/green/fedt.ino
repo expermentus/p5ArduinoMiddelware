@@ -49,7 +49,7 @@ int status = WL_IDLE_STATUS;
 
 WiFiServer server(80);  // Use a port number that is not conflicting with other services
 
-void handleSketchDownload(char[] PATH) {
+void handleSketchDownload(const char* PATH) {
   const char* SERVER = "p5test.blob.core.windows.net";  // Set your correct hostname
   const unsigned short SERVER_PORT = 443;     // Commonly 80 (HTTP) | 443 (HTTPS)
   //const char* PATH = "/binfiles/red.ino.bin";  // Set the URI to the .bin firmware
@@ -185,7 +185,7 @@ void onMqttMessage(int messageSize) {
     //char[] trigger = "simon"
     //char[] test = mqttClient.readString()
     if(mqttClient.messageTopic()=="ota_first_topic"){
-      handleSketchDownload(mqttClient.readString());
+      handleSketchDownload(mqttClient.readString().c_str());
     }
 
   }
