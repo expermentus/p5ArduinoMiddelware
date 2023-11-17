@@ -3,7 +3,7 @@ import os
 import grpc
 from detection import check_ports
 from compiler import Compiler
-from generate_init import generate_init
+from generate_init_header import generate_header_file
 import init_pb2, init_pb2_grpc
 
 
@@ -23,7 +23,7 @@ def SetupArduinos(stub):
     mqttun = response.mqttun
     mqttpw = response.mqttpw
 
-    generate_init("test", SSID=SSID, Password=Password, stopic=stopic, mqttun=mqttun, mqttpw=mqttpw)
+    generate_header_file('init_sketch/arduino_secrets.h', SSID, Password, stopic, mqttun, mqttpw)
 
     arduino_name = arduinos[response.choice - 1]
     arduino_port = ''
@@ -41,10 +41,8 @@ def SetupArduinos(stub):
         except IndexError:
             print("index out of range")
 
-    dump_path = os.path.abspath('tests/test')
-
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
-                        sketch_path=dump_path,
+                        sketch_path='init_sketch',
                         board=arduino_name,
                         COM_PORT=arduino_port,
                         )
