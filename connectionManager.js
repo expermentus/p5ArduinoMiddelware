@@ -8,10 +8,10 @@ if (fs.existsSync('.env')) {
 }
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: process.env.DB_USERNAME, // Replace with your database username
-    password: process.env.DB_PASSWORD, // Replace with your database password
-    database: 'idiot_middleware',
+    host: '130.225.39.23',
+    user: 'root', // Replace with your database username
+    password: 'root', // Replace with your database password
+    database: 'IdIoT_Middleware',
     charset: 'utf8mb4', // Character encoding (optional)
 });
 
