@@ -53,8 +53,8 @@ def SetupArduinos(stub):
 
 
 def run():
-    # channel = "???" #TODO uhm what channel :D?
-    with grpc.insecure_channel("localhost:50050") as channel:
+
+    with grpc.insecure_channel("130.225.39.149:50050") as channel:
         # grpc stub:
         stub = init_pb2_grpc.FetchCredentialsStub(channel)
         SetupArduinos(stub)
