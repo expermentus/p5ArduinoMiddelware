@@ -8,6 +8,9 @@ var env = require('dotenv');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
+
+global.arduinos =[];
 
 
 var app = express();
@@ -78,8 +81,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 const connectionManager = require('./connectionManager');
 const fs = require("fs"); // Replace with the actual path to your ConnectionManager module

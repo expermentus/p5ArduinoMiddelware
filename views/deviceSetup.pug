@@ -18,6 +18,11 @@ block content
                         input(type="int", placeholder="Number of pins", name="number_of_pins", class="input", required=true)
                         input(type="int", placeholder="Use case", name="chosen_usecase", class="input", required=true)
                         button.button-confirm Create device →
+    div(class='text-center center')
+        each item in arduinos
+            div(class='cartoon-container')
+                p
+                    | NEW DECIVE <b style="font-size: 18px;">#{item}</b>
 
     script.
         function toggleFormVisibility() {

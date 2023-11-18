@@ -5,6 +5,8 @@ const fs = require('fs');
 const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
@@ -13,6 +15,7 @@ router.get('/', function(req, res, next) {
 /* GET home page. */
 router.get('/deviceSetup', function(req, res, next) {
   res.render('deviceSetup', { title: 'Device Setup Page' });
+  console.log(arduinos)
 });
 
 router.post('/deviceSetup', async(req,res) =>{
