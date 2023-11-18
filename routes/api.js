@@ -30,6 +30,19 @@ router.post('/test', function(req, res, next) {
     }
     console.log('Global array arduinos:', arduinos);
 });
+
+router.get('/testget', function(req, res, next) {
+    const responseJson = {
+        choice: 'choice',
+        ssid: 'ssid',
+        password: 'password',
+        stopic: 'topic',
+        mqttun: 'mqttun',
+        mqttpw: 'mqttpw'
+    };
+
+    res.json(responseJson);
+});
 router.get('/flag', function(req, res, next) {
     res.json({ message: 'HKN:{68t73458769q32gyuhaf}' });
 });
