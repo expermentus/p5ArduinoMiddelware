@@ -30,8 +30,8 @@ while 1:
     except IndexError:
         print("index out of range")
 
-compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
-                    sketch_path='tests/red',
+compiler = Compiler(cli_path='../arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
+                    sketch_path='../tests/red',
                     board=arduino_name,
                     COM_PORT=arduino_port,
                     )
