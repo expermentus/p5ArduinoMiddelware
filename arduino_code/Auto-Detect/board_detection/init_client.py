@@ -3,7 +3,7 @@ import os
 from detection import check_ports
 from compiler import Compiler
 from generate_init_header import generate_header_file
-from send_json import send_json
+from send_recieve_json import send_json, receive_json
 
 def SetupArduinos():
     arduinos, notarduinos = check_ports()
@@ -15,6 +15,15 @@ def SetupArduinos():
     arduino = arduinos[0][0]
 
     send_json(arduinos)
+
+    data = receive_json()
+
+    print('1: ', data['choice'])
+    print('2: ', data['ssid'])
+    print('3: ', data['password'])
+    print('4: ', data['stopic'])
+    print('5: ', data['mqttun'])
+    print('6: ', data['mqttpw'])
 
     #SSID = response.ssid
     #Password = response.password

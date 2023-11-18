@@ -29,3 +29,24 @@ def send_json(arduinos):
 
     except json.JSONDecodeError as err:
         print(f'Error decoding JSON file: {err}')
+
+
+def receive_json():
+    # Make a GET request to the /api/testget endpoint
+    url = 'http://130.225.39.149/api/testget'
+    response_testget = requests.get(url)
+    response_testget.raise_for_status()
+
+    # Print the JSON response from /api/testget
+    print('API Response from /api/testget:', response_testget.json())
+    json = response_testget.json()
+    data = {
+        'choice': json.get('choice', None),
+        'ssid': json.get('ssid', None),
+        'password': json.get('password', None),
+        'stopic': json.get('password', None),
+        'mqttun': json.get('mqttun', None),
+        'mqttpw': json.get('mqttpw', None)
+    }
+
+    return json
