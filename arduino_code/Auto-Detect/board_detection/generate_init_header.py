@@ -19,15 +19,14 @@ def generate_header_file(path, SSID, Password, stopic, mqttun, mqttpw):
             # Write the content to the file
             header_file.write(header_content)
 
-        print(f"Header file '{file_path}' created or replaced successfully.")
-
     except Exception as e:
         print(f"Error: {e}")
 
 
 if __name__ == '__main__':
     # Call the function to generate or replace the header file
-    generate_header_file('network',
+    generate_header_file('init_sketch',
+                         'network',
                          'secret_code',
                          'interesting_topic',
                          'mqttUserName',

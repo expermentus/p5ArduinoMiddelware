@@ -25,6 +25,7 @@ def SetupArduinos():
     print('5: ', data['mqttun'])
     print('6: ', data['mqttpw'])
 
+    generate_header_file('init_sketch', data['ssid'], data['password'], data['stopic'], data['mqttun'], data['mqttpw'])
     #SSID = response.ssid
     #Password = response.password
     #stopic = response.stopic
