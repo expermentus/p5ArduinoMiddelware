@@ -5,6 +5,7 @@ from compiler import Compiler
 from generate_init_header import generate_header_file
 from send_recieve_json import send_json, receive_json
 
+
 def SetupArduinos():
     arduinos, notarduinos = check_ports()
 
@@ -25,22 +26,15 @@ def SetupArduinos():
     print('5: ', data['mqttun'])
     print('6: ', data['mqttpw'])
 
-    generate_header_file('init_sketch',
+    generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
                          data['password'],
                          data['stopic'],
                          data['mqttun'],
-                         data['mqttpw'])
+                         data ['mqttpw'])
 
-    #SSID = response.ssid
-    #Password = response.password
-    #stopic = response.stopic
-    #mqttun = response.mqttun
-    #mqttpw = response.mqttpw
-
-    #generate_header_file('init_sketch/arduino_secrets.h', SSID, Password, stopic, mqttun, mqttpw)
-
-    #arduino_name = arduinos[response.choice - 1]
+    type(data['choice'])
+    #arduino_name = arduinos[choice - 1]
     #arduino_port = ''
     #while 1:
     #    if len(arduinos) == 0:
