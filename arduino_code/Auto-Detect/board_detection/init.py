@@ -17,7 +17,7 @@ def SetupArduinos():
     while 1:
         data = receive_json()
 
-        if any(value is None for value in data.values()):
+        if any(value is not None for value in data.values()):
             break
 
         time.sleep(0.25)
