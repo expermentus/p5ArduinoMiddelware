@@ -51,11 +51,11 @@ def SetupArduinos():
 
     if compiler.compile():
         # http response
-        print('successfully flashed arduino')
+        print('Successfully flashed arduino')
 
     else:
         # http response
-        print('øv bøv bussemand')
+        print('Øv bøv bussemand')
 
     os.remove(os.path.abspath('init_sketch/arduino_secrets.h'))
 
