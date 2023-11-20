@@ -4,6 +4,7 @@ const mysql = require('mysql2');
 const fs = require('fs');
 const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
+const connectionManager = require("../connectionManager");
 
 
 
@@ -18,23 +19,43 @@ router.get('/deviceSetup', function(req, res, next) {
   console.log(arduinos)
 });
 
-router.post('/deviceSetup', async(req,res) =>{
-  const {name, model_name, number_of_pins, chosen_usecase} = req.body;
+router.post('/deviceSetup', async(req, res) => {
+  const connection = connectionManager.getConnection();
+  const query = 'SELECT name FROM devices';
+  const { name, ssid, ssid_pass } = req.body;
+  var countSameName = 0;
+  var topic;
 
-  // Insert data into the database
-  const sql = 'INSERT INTO devices (name, model_name, number_of_pins, chosen_usecase) VALUES (?, ?, ?, ?)';
-  const values = [name, model_name, number_of_pins, chosen_usecase];
-
-  getConnection().query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error inserting data into the database:', err);
-      res.status(500).json({ message: 'Error inserting data into the database' });
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error loading devices:', error);
+      res.status(500).send('Error loading devices');
       return;
     }
 
-    console.log('Data inserted into the database');
-    res.render('deviceSetup', { title: 'Device Setup Page' });
+    for (let i = 0; i < results.length; i++) {
+      if (name === results[i].name) {
+        countSameName += 1;
+      }
+    }
+    topic = name + countSameName;
+    topic = topic.replace(/[^a-zA-Z0-9]/g, '');
+
+    // Insert data into the database
+    const sql = 'INSERT INTO devices (name, ssid, ssid_pass, topic) VALUES (?, ?, ?, ?)';
+    const values = [name, ssid, ssid_pass, topic];
+
+    getConnection().query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error inserting data into the database:', err);
+        res.status(500).json({ message: 'Error inserting data into the database' });
+        return;
+      }
+
+      console.log('Data inserted into the database');
+      res.render('deviceSetup', { title: 'Device Setup Page' });
+    });
   });
-})
+});
 
 module.exports = router;
