@@ -1,31 +1,45 @@
 extends layout
 
 block content
-    div(class='text-center center')
-        button.button(onclick="toggleFormVisibility()")
-            span.text New device
+    div(class='text-center center-div')
+        h1 List of discovered devices
 
-        div.form-container(style="display: none;")
+    each item in arduinos
+        div.form-container(style="display: none;" id=item)
             div(class='text-center center')
                 form.form(method='POST' action='/deviceSetup')
                     div(class='center')
                         .title
-                            | Register,
+                            | #{item}
                             br
-                            span insert the information about the device
-                        input(type="string", placeholder="Device Name", name="name", class="input", required=true)
-                        input(type="string", placeholder="Model Name", name="model_name", class="input", required=true)
-                        input(type="int", placeholder="Number of pins", name="number_of_pins", class="input", required=true)
-                        input(type="int", placeholder="Use case", name="chosen_usecase", class="input", required=true)
-                        button.button-confirm Create device →
-    div(class='text-center center')
+                            span Insert the information about the device below
+                        input(type="string", placeholder="Device name", name="name", class="input", required=true)
+                        input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
+                        input(type="password", placeholder="Wifi password", name="ssid_pass", class="input", required=true)
+                        input(type="string", hidden=true, name="board", class="input", required=false, default=item)
+                        button.button-confirm Create
+
+    div(class="row center")
         each item in arduinos
-            div(class='cartoon-container')
-                p
-                    | NEW DECIVE <b style="font-size: 18px;">#{item}</b>
+            button.button(onclick=`toggleFormVisibility('${item}')`, height="auto", width="auto")
+                span.text #{item}
+
+
 
     script.
-        function toggleFormVisibility() {
-            var formDiv = document.querySelector('.form-container');
-            formDiv.style.display = (formDiv.style.display === 'none' || formDiv.style.display === '') ? 'block' : 'none';
+        function toggleFormVisibility(item) {
+            // Get the selected form
+            var formDiv = document.getElementById(item);
+
+            // Check if the form is currently visible
+            var isVisible = formDiv.style.display === 'block';
+
+            // Hide all forms first
+            var allForms = document.querySelectorAll('.form-container');
+            allForms.forEach(function (form) {
+                form.style.display = 'none';
+            });
+
+            // If the form was not visible, show it; otherwise, hide it
+            formDiv.style.display = isVisible ? 'none' : 'block';
         }
