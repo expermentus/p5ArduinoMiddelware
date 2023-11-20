@@ -15,13 +15,6 @@ def SetupArduinos():
 
     data = receive_json()
 
-    print('1: ', data['choice'])
-    print('2: ', data['ssid'])
-    print('3: ', data['password'])
-    print('4: ', data['stopic'])
-    print('5: ', data['mqttun'])
-    print('6: ', data['mqttpw'])
-
     generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
                          data['password'],
@@ -45,24 +38,24 @@ def SetupArduinos():
 
         try:
             arduino_name = str(re.sub(r"['\[\]]", "", str(arduinos[0][0])))
-            arduino_port = str(arduinos[0][1].name)
+            arduino_port = str(arduinos[0][1].name)  # .name or .device
             break
 
         except IndexError:
             print("index out of range")
-
-    print('name: ',arduino_name,'COM: ', arduino_port)
 
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path='init_sketch',
                         board=arduino_name,
                         COM_PORT=arduino_port, )
 
-    try:
-        compiler.compile()
+    if compiler.compile():
+        # http response
+        print('successfully flashed arduino')
 
-    except :
-        pass
+    else:
+        # http response
+        print('øv bøv bussemand')
 
     os.remove(os.path.abspath('init_sketch/arduino_secrets.h'))
 
