@@ -34,7 +34,10 @@ def receive_json():
     response_testget = requests.get(url)
     response_testget.raise_for_status()
 
-    # API response:
+    # Print the JSON response from /api/testget
+    print('API Response from /api/testget:', response_testget.json())
+
+    # API json:
     json = response_testget.json()
     data = {
         'choice': json.get('choice', None),
