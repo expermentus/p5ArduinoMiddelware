@@ -34,9 +34,9 @@ router.post('/test', function(req, res, next) {
 router.get('/testget', function(req, res, next) {
     const responseJson = {
         choice: 'choice',
-        ssid: 'ssid',
-        password: 'password',
-        stopic: 'topic',
+        ssid: 'AAU-1-DAY',
+        password: 'daze12bread',
+        stopic: 'nicetopic',
         mqttun: 'mqttun',
         mqttpw: 'mqttpw'
     };

@@ -9,7 +9,7 @@ if (fs.existsSync('.env')) {
 
 const connection = mysql.createConnection({
     host: '130.225.39.23',
-    user: 'root', // Replace with your database username
+    user: 'p5', // Replace with your database username
     password: 'root', // Replace with your database password
     database: 'IdIoT_Middleware',
     charset: 'utf8mb4', // Character encoding (optional)
