@@ -14,16 +14,14 @@ class Compiler:
     def get_fqbn(self):
         entry = fqbn.get(self.board)
         if entry:
-            print("FQBN: ", entry[0])
             return entry[0]  # The first element of the tuple is the FQBN
         else:
-            print("FQBN NOT FOUND")
-            return 'NONE'
+            return None
 
     def compile(self):
         # runs command: arduino-cli compile -b (fqbn) -u (sketch_path) -p (COM)
         # variables:    'cli_path' compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
-        command = f"'{self.cli_path}' compile -b '{self.fqbn}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
+        command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
         stripped_command = str(re.sub(r"['\[\]]", "", command))
         print(stripped_command)
         os.system(stripped_command)
