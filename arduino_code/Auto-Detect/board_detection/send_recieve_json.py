@@ -44,9 +44,7 @@ def receive_json():
         'choice': json.get('choice', None),
         'ssid': json.get('ssid', None),
         'password': json.get('password', None),
-        'stopic': json.get('password', None),
-        'mqttun': json.get('mqttun', None),
-        'mqttpw': json.get('mqttpw', None)
+        'stopic': json.get('stopic', None)
     }
 
     return json

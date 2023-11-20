@@ -7,8 +7,8 @@ def generate_header_file(path, SSID, Password, stopic, mqttun, mqttpw):
     #define SECRET_SSID "{SSID}"
     #define SECRET_PASS "{Password}"
     #define SECRET_STOPIC "{stopic}"
-    #define SECRET_MQTTUN "{mqttun}"
-    #define SECRET_MQTTPW "{mqttpw}"
+    #define SECRET_BROKER "130.225.37.228"
+    #define SECRET_PORT 1883
     """
 
     file_path = os.path.abspath(path)
