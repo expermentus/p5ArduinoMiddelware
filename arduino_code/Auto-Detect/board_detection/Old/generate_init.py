@@ -5,7 +5,7 @@ from everywhereml.arduino import Sketch, Ino, H
 def generate_init(name, SSID, Password, stopic, mqttun, mqttpw):
     # elegant code to seamlessly import variables in .ino code
 
-    sketch = Sketch(name=name, folder=os.path.abspath('tests'))
+    sketch = Sketch(name=name, folder=os.path.abspath('../tests'))
 
     # Code to add to the sketch:
 

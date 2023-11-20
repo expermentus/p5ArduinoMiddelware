@@ -33,7 +33,7 @@ router.post('/test', function(req, res, next) {
 
 router.get('/testget', function(req, res, next) {
     const responseJson = {
-        choice: 'choice',
+        choice: '1',
         ssid: 'AAU-1-DAY',
         password: 'daze12bread',
         stopic: 'nicetopic',
