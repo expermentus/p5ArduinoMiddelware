@@ -1,4 +1,4 @@
-import re, os
+import re, os, time
 from detection import check_ports
 from compiler import Compiler
 from generate_init_header import generate_header_file
@@ -10,10 +10,17 @@ def SetupArduinos():
 
     if len(arduinos) == 0:
         print('No arduinos found')
+        return False
 
     send_json(arduinos)
 
-    data = receive_json()
+    while 1:
+        data = receive_json()
+
+        if any(value is None for value in data.values()):
+            break
+
+        time.sleep(0.25)
 
     generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
@@ -52,12 +59,14 @@ def SetupArduinos():
     if compiler.compile():
         # http response
         print('Successfully flashed arduino')
+        os.remove(os.path.abspath('init_sketch/arduino_secrets.h'))
+        return True
 
     else:
         # http response
         print('Øv bøv bussemand')
-
-    os.remove(os.path.abspath('init_sketch/arduino_secrets.h'))
+        os.remove(os.path.abspath('init_sketch/arduino_secrets.h'))
+        return False
 
 
 def run():
