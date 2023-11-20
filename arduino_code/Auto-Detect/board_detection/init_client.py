@@ -1,5 +1,4 @@
-import re
-import os
+import re, os
 from detection import check_ports
 from compiler import Compiler
 from generate_init_header import generate_header_file
@@ -31,38 +30,42 @@ def SetupArduinos():
                          data['password'],
                          data['stopic'],
                          data['mqttun'],
-                         data ['mqttpw'])
+                         data['mqttpw'])
+    choice = 0
+    try:
+        choice = int(data['choice'])
+    except ValueError:
+        print("Choice must be a number (integer).")
 
-    type(data['choice'])
-    #arduino_name = arduinos[choice - 1]
-    #arduino_port = ''
-    #while 1:
-    #    if len(arduinos) == 0:
-    #        break
-    #    selected = response.choice
+    arduino = arduinos[choice - 1]
+    arduino_name = ''
+    arduino_port = ''
+    while 1:
+        if len(arduinos) == 0:
+            break
 
-    #    try:
-    #        arduino = arduinos[selected - 1]
-    #        arduino_name = str(re.sub(r"['\[\]]", "", arduino[0][0]))
-    #        arduino_port = str(arduino[1][0])
-    #        break
+        try:
+            arduino_name = str(re.sub(r"['\[\]]", "", arduino[0][0]))
+            arduino_port = str(arduino[1][0])
+            break
 
-    #    except IndexError:
-    #        print("index out of range")
+        except IndexError:
+            print("index out of range")
 
-    #compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
-    #                    sketch_path='init_sketch',
-    #                    board=arduino_name,
-    #                    COM_PORT=arduino_port,
-    #                    )
+    compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
+                        sketch_path='init_sketch',
+                        board=arduino_name,
+                        COM_PORT=arduino_port,
+                        )
 
-    # compiler.compile()
+    compiler.compile()
 
-    # os.remove('dump_path')
+    os.remove('dump_path')
 
 
 def run():
     SetupArduinos()
+
 
 # Running the client
 if __name__ == "__main__":
