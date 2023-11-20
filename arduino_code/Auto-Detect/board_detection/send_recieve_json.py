@@ -7,7 +7,7 @@ def send_json(arduinos):
 
     # Create a sample JSON payload (replace this with your actual data)
     json_data_to_send = {
-        "arduino1": [arduino[0] for arduino in arduinos],
+        "arduino1": [arduino[0][0] for arduino in arduinos],
     }
 
     try:

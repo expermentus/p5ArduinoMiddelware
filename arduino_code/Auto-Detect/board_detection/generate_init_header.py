@@ -1,7 +1,7 @@
 import os
 
 
-def generate_header_file(path, SSID, Password, stopic, mqttun, mqttpw):
+def generate_header_file(path, SSID, Password, stopic):
     # Define the content of the header file
     header_content = f"""
     #define SECRET_SSID "{SSID}"
