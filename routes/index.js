@@ -6,7 +6,7 @@ const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const connectionManager = require("../connectionManager");
 
-
+global.insertedData = null;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -53,6 +53,12 @@ router.post('/deviceSetup', async(req, res) => {
       }
 
       console.log('Data inserted into the database');
+      insertedData = {
+        choice: '1',
+        ssid: ssid,
+        password: ssid_pass,
+        stopic: topic,
+      };
       res.render('deviceSetup', { title: 'Device Setup Page' });
     });
   });
