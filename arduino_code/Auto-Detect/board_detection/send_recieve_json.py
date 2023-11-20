@@ -21,9 +21,6 @@ def send_json(arduinos):
         # Assuming the API response contains JSON data
         api_response = response.json()
 
-        # Print the API response
-        print('API Response:', api_response)
-
     except requests.exceptions.RequestException as err:
         print(f'Error making the request: {err}')
 
@@ -37,16 +34,13 @@ def receive_json():
     response_testget = requests.get(url)
     response_testget.raise_for_status()
 
-    # Print the JSON response from /api/testget
-    print('API Response from /api/testget:', response_testget.json())
+    # API response:
     json = response_testget.json()
     data = {
         'choice': json.get('choice', None),
         'ssid': json.get('ssid', None),
         'password': json.get('password', None),
-        'stopic': json.get('password', None),
-        'mqttun': json.get('mqttun', None),
-        'mqttpw': json.get('mqttpw', None)
+        'stopic': json.get('stopic', None)
     }
 
     return json
