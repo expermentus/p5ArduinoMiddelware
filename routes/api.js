@@ -32,17 +32,10 @@ router.post('/test', function(req, res, next) {
 });
 
 router.get('/testget', function(req, res, next) {
-    const responseJson = {
-        choice: '1',
-        ssid: 'AAU-1-DAY',
-        password: 'daze12bread',
-        stopic: 'nicetopic',
-        mqttun: 'mqttun',
-        mqttpw: 'mqttpw'
-    };
-
-    res.json(responseJson);
+    res.json(insertedData);
 });
+
+
 router.get('/flag', function(req, res, next) {
     res.json({ message: 'HKN:{68t73458769q32gyuhaf}' });
 });
