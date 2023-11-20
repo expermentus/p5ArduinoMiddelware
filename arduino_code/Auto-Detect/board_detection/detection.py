@@ -36,8 +36,7 @@ if __name__ == "__main__":
     # Print Arduino connections
     for ard in arduinos:
         print("Arduino Board:", ard[0], type(ard[0]))  # Print the Arduino board name
-        print("Connection Info:", ard[1], type(ard[1]))  # Print connection information
-        print("\n")
+        print("Connection Info:", ard[1])  # Print connection information
         print("name: ", ard[1].name)
         print("device: ", ard[1].device)
         print("hwid: ", ard[1].hwid)
