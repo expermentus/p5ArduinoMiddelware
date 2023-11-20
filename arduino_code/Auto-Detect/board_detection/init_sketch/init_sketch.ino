@@ -19,7 +19,6 @@
   by Nicola Elia
   based on Juraj Andrassy sample sketch 'OTASketchDownload'
 */
-#include <ArduinoHttpClient.h>
 #include <WiFiNINA.h>
 #include <Arduino_MKRIoTCarrier.h>
 #include <ArduinoMqttClient.h>
@@ -27,7 +26,7 @@
 #include "arduino_secrets.h"
 #define NO_OTA_NETWORK
 #include <ArduinoOTA.h> // only for InternalStorage
-
+#include <ArduinoHttpClient.h>
 
 
 const short VERSION = 1;
@@ -121,9 +120,7 @@ void setup() {
 
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+
   // attempt to connect to Wifi network:
   Serial.print("Attempting to connect to SSID: ");
   Serial.println(MY_SSID);
