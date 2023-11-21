@@ -5,30 +5,27 @@ block content
         button.button(onclick="refreshPage()")
             span.text Refresh
 
-    if !results
-        p No devices found
-    else
-        ul
-            each item in results
-                div(class='cartoon-container')
-                    p
-                        | <b style="font-size: 18px;">#{item.model_name}</b>
-                        br
-                        | Usecase number: <b style="font-size: 18px;">#{item.chosen_usecase}</b>
-                    div(class='cartoon-container left')
-                        div(class='container-wrapper')
-                            div(class='container-left')
-                                div(id='list-container-left', class='list-element')
-                                    ul
-                                        each item in listMes.slice(0, 10)
-                                            li= 'Temperature: ' + item
-
-                            div(class='container-right')
-                                div(id='list-container-right', class='list-element')
-                                    ul
-                                        each item in listMes2.slice(0, 10)
-                                            li= 'Humidity: ' + item
-
+    ul
+        - var knownData = ""
+        each item in devices
+            div(class='cartoon-container')
+                p
+                    b(style="font-size: 18px;") #{item.name}
+                div(class='cartoon-container left')
+                    div(class='container-wrapper')
+                        each data in sensorData
+                            if item.name ==data.device_name
+                                if data.data_name !== knownData
+                                    - knownData = data.data_name
+                                    div(class='container-left')
+                                        div(id='list-container-left', class='list-element')
+                                            ul
+                                                li= data.data_name + ': ' + data.reading
+                                else
+                                    div(class='container-right')
+                                        div(id='list-container-right', class='list-element')
+                                            ul
+                                                li= data.data_name + ': ' + data.reading
 
     script.
         function refreshPage() {

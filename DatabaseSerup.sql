@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
 CREATE TABLE IF NOT EXISTS `sensor_data` (
   `id` int NOT NULL AUTO_INCREMENT,
   `device_id` int default NULL,
-  `data_name` int default NULL,
+  `data_name` varchar(255) default NULL,
   `reading` int default NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

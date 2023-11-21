@@ -4,6 +4,7 @@ block content
     div(class='text-center center-div')
         h1 List of discovered devices
 
+
     each item in arduinos
         div.form-container(style="display: none;" id=item)
             div(class='text-center center')
@@ -17,17 +18,35 @@ block content
                         input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
                         input(type="password", placeholder="Wifi password", name="ssid_pass", class="input", required=true)
                         input(type="string", hidden=true, name="board", class="input", required=false, default=item)
-                        button.button-confirm Create
+                        button.button-confirm(onclick='hide("${item}")') Create
 
     div(class="row center")
         each item in arduinos
-            button.button(onclick=`toggleFormVisibility('${item}')`, height="auto", width="auto")
+            button.button(onclick=`toggleFormVisibility("${item}")`, height="auto", width="auto")
                 span.text #{item}
 
 
 
     script.
+        if(alert=='data stored succesfully'){
+            var allForms = document.querySelectorAll('.form-container');
+            allForms.forEach(function (form) {
+                form.style.display = 'none';
+            })
+        };
+
+        function hide(item){
+
+            for (var i = 0; i < arduinos.length; i++) {
+                if (arduinos[i] === item) {
+                    arduinos.slice(i, 1)
+                }
+            }
+        }
+
         function toggleFormVisibility(item) {
+
+
             // Get the selected form
             var formDiv = document.getElementById(item);
 

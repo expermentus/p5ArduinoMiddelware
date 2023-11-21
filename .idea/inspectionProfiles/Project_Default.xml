@@ -4,10 +4,11 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="3">
+          <list size="4">
             <item index="0" class="java.lang.String" itemvalue="default" />
             <item index="1" class="java.lang.String" itemvalue="onclick" />
             <item index="2" class="java.lang.String" itemvalue="style" />
+            <item index="3" class="java.lang.String" itemvalue="id" />
           </list>
         </value>
       </option>
@@ -19,6 +20,13 @@
           <option value="N802" />
           <option value="N803" />
           <option value="N801" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="int.read" />
         </list>
       </option>
     </inspection_tool>
