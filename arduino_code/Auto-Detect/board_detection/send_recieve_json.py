@@ -7,7 +7,7 @@ def send_json(arduinos):
 
     # Create a sample JSON payload (replace this with your actual data)
     json_data_to_send = {
-        "arduino1": [arduino[0] for arduino in arduinos],
+        "arduino1": [arduino[0][0] for arduino in arduinos],
     }
 
     try:
@@ -34,7 +34,10 @@ def receive_json():
     response_testget = requests.get(url)
     response_testget.raise_for_status()
 
-    # API response:
+    # Print the JSON response from /api/testget
+    print('API Response from /api/testget:', response_testget.json())
+
+    # API json:
     json = response_testget.json()
     data = {
         'choice': json.get('choice', None),

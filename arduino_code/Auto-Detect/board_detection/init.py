@@ -25,9 +25,7 @@ def SetupArduinos():
     generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
                          data['password'],
-                         data['stopic'],
-                         data['mqttun'],
-                         data['mqttpw'])
+                         data['stopic'])
     choice = None
 
     try:
