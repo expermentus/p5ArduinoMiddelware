@@ -5,9 +5,9 @@ import json
 def send_json(arduinos):
     url = 'http://130.225.39.149/api/test'
 
-    # Create a sample JSON payload (replace this with your actual data)
+    # Create a sample JSON payload
     json_data_to_send = {
-        "arduino1": [arduino[0][0] for arduino in arduinos],
+        "arduino": [arduino[0][0] for arduino in arduinos],
     }
 
     try:

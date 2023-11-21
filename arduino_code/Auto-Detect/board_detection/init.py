@@ -24,10 +24,11 @@ def SetupArduinos():
 
         elif any(value is None for value in data.values()):
             print('Der står sgu at det er tomt')
-            pass
             time.sleep(2)
+            pass
 
         else:
+            print('Så der sgu hul igennem du!')
             break
 
     generate_header_file('init_sketch/arduino_secrets.h',
