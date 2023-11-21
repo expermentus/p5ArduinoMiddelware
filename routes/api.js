@@ -20,9 +20,9 @@ router.post('/test', function(req, res, next) {
         const parsedData = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
         console.log('Received JSON data:', parsedData);
         // You can now use parsedData as needed
-        if (parsedData.hasOwnProperty('arduino1')) {
+        if (parsedData.hasOwnProperty('arduino')) {
             // Update the global array 'arduinos'
-            arduinos = parsedData['arduino1'];
+            arduinos = parsedData['arduino'];
         }
         // Respond with a success message
         res.json({ message: 'Received and processed JSON data' });
