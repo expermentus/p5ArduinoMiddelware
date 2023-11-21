@@ -32,6 +32,18 @@ class Compiler:
         else:
             return False
 
+
+if __name__ == "__main__":
+
+    # compiles test projekt, og ligger alt det compilede i subfolderen test/test_compiled
+
+    compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
+                        sketch_path='test',
+                        board='Arduino MKR WiFi 1010',
+                        COM_PORT='arduino_port')
+
+    compiler.server_compile('test/test_compiled')
+
     def server_compile(self, dump_path):
         # extract complete path
         real_dump_path = os.path.abspath(dump_path)
