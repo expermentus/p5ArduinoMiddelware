@@ -5,7 +5,7 @@ const fs = require('fs');
 const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const {BlobServiceClient} = require("@azure/storage-blob");
-const {uploadManager} = require("../uploadManager");
+const uploadToAzureStorage = require("../uploadManager");
 
 
 router.post('/test', function(req, res, next) {
