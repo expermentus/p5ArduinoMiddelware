@@ -6,10 +6,10 @@ def send_json(arduinos):
     url = 'http://130.225.39.149/api/test'
 
     # Create a sample JSON payload
-    json_data_to_send = {
-        "arduino": [arduino[0][0] for arduino in arduinos],
-        "status": 'discovered'
-    }
+    json_data_to_send = []
+
+    for arduino in arduinos:
+        json_data_to_send.append({"arduino": [arduino[0][0]], "status": "discovered"})
 
     try:
         # Convert the dictionary to JSON
