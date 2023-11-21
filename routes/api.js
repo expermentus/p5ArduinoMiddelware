@@ -63,7 +63,7 @@ router.get('/upload', function (req, res, next)  {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
 // Specify the path to your local .bin file
-    const filePath = "/hej.bin";
+    const filePath = "../binfiles/hej.bin";
 
 // Upload the .bin file to Azure Storage
     async function uploadToAzureStorage() {
