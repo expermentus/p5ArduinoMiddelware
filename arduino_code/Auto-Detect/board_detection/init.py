@@ -17,10 +17,18 @@ def SetupArduinos():
     while 1:
         data = receive_json()
 
-        if any(value is not None for value in data.values()):
-            break
+        if data is False:
+            print('No data')
+            time.sleep(2)
+            pass
 
-        time.sleep(0.25)
+        elif any(value is None for value in data.values()):
+            print('Der står sgu at det er tomt')
+            pass
+            time.sleep(2)
+
+        else:
+            break
 
     generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
