@@ -4,29 +4,38 @@ block content
     div(class='text-center center-div')
         h1 List of discovered devices
 
-    each item in arduinos
-        div.form-container(style="display: none;" id=item)
-            div(class='text-center center')
-                form.form(method='POST' action='/deviceSetup')
-                    div(class='center')
-                        .title
-                            | #{item}
-                            br
-                            span Insert the information about the device below
-                        input(type="string", placeholder="Device name", name="name", class="input", required=true)
-                        input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
-                        input(type="password", placeholder="Wifi password", name="ssid_pass", class="input", required=true)
-                        input(type="string", hidden=true, name="board", class="input", required=false, default=item)
-                        button.button-confirm Create
-
-    div(class="row center")
+    if arduinos = isNaN()
+        p No devices found
+    else
         each item in arduinos
-            button.button(onclick=`toggleFormVisibility('${item}')`, height="auto", width="auto")
-                span.text #{item}
+            div.form-container(style="display: none;" id=item)
+                div(class='text-center center')
+                    form.form(method='POST' action='/deviceSetup')
+                        div(class='center')
+                            .title
+                                | #{item}
+                                br
+                                span Insert the information about the device below
+                            input(type="string", placeholder="Device name", name="name", class="input", required=true)
+                            input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
+                            input(type="password", placeholder="Wifi password", name="ssid_pass", class="input", required=true)
+                            input(type="string", hidden=true, name="board", class="input", required=false, default=item)
+                            button.button-confirm(onclick='confirmVisability') Create
+
+        div(class="row center")
+            each item in arduinos
+                button.button(onclick=`toggleFormVisibility('${item}')`, height="auto", width="auto")
+                    span.text #{item}
 
 
 
     script.
+        function confirmVisability(){
+            var allForms = document.querySelectorAll('.form-container');
+            allForms.forEach(function (form) {
+                form.style.display = 'none';
+            });
+        }
         function toggleFormVisibility(item) {
             // Get the selected form
             var formDiv = document.getElementById(item);
