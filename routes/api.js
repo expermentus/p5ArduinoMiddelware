@@ -44,11 +44,9 @@ router.get('/flag', function(req, res, next) {
 
 router.get('/upload', async function (req, res, next) {
     try {
-        const connectionString = "DefaultEndpointsProtocol=https;AccountName=p5test;AccountKey=DvxHnZVcWYvIxm7iqlbhyI8ngBwbTxaJGXR4pArlA47vJIqgGAaSW6HNgrCuv4vTln0KhFzIgnaN+AStsKrPSg==;EndpointSuffix=core.windows.net\\n\"";
         const containerName = "binfiles";
         const filePath = "./binfiles/hej.bin";
-
-        const response = await uploadToAzureStorage(connectionString, containerName, filePath);
+        const response = await uploadToAzureStorage(containerName, filePath);
 
         console.log("File uploaded successfully:", response.requestId);
         res.send("File uploaded successfully");
