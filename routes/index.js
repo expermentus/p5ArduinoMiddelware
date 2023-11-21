@@ -57,7 +57,7 @@ router.post('/deviceSetup', async(req, res) => {
         password: ssid_pass,
         stopic: topic,
       };
-      res.render('deviceSetup', { title: 'Device Setup Page' });
+      res.render('deviceSetup', { title: 'Device Setup Page', alert: 'data stored succesfully' });
     });
   });
 });
