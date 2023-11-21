@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `ssid` varchar(255) DEFAULT NULL,
-  `ssid_pass` varchar(255) DEFAULT NULL,
   `topic` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

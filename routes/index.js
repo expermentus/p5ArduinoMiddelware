@@ -41,8 +41,8 @@ router.post('/deviceSetup', async(req, res) => {
     topic = topic.replace(/[^a-zA-Z0-9]/g, '');
 
     // Insert data into the database
-    const sql = 'INSERT INTO devices (name, ssid, ssid_pass, topic, status) VALUES (?, ?, ?, ?, ?)';
-    const values = [name, ssid, ssid_pass, topic, status];
+    const sql = 'INSERT INTO devices (name, ssid, topic, status) VALUES (?, ?, ?, ?)';
+    const values = [name, ssid, topic, status];
 
     getConnection().query(sql, values, (err, result) => {
       if (err) {

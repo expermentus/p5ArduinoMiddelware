@@ -10,7 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
-global.arduinos =["testing solo"];
+global.arduinos = [["testing solo", "Discovered"]];
 global.insertedData = null;
 
 var app = express();

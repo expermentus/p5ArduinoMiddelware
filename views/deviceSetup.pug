@@ -3,42 +3,55 @@ extends layout
 block content
     div(class='text-center center-div')
         h1 List of discovered devices
-
-    - let status = "Discovered"
+    - var index = 0;
     each item in arduinos
-        div.form-container(style="display: none;" id=item)
+        div.form-container(style="display: none;" id=item[0])
             div(class='text-center center')
                 form.form(method='POST' action='/deviceSetup')
                     div(class='center')
                         .title
-                            | #{item}
+                            | #{item[0]}
                             br
                             span Insert the information about the device below
                         input(type="string", placeholder="Device name", name="name", class="input", required=true)
                         input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
-                        input(type="password", placeholder="Wifi password", name="ssid_pass", class="input", required=true)
+                        input(type="password", placeholder="Wifi password", name="ssid_pass", id="password" class="input", required=true)
+                        | Show password
+                        input(type="checkbox", onclick=`hideViewPassword()`)
+                        br
                         input(type="string", hidden=true, name="board", class="input", required=false, default=item)
-                        button.button-confirm(onclick=`statusConfigured("${item}")`) Create
+                        button.button-confirm(onclick=`setStatus("${index}")`) Create
+            - index = index + 1
 
     div(class="row center")
         each item in arduinos
-            button.button(onclick=`toggleFormVisibility("${item}")`, style='height: auto; width: auto; padding: 20px;')
-                span.text #{item} <br> Status: #{status}
-
-
+            button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
+                span.text #{item[0]} <br> Status: #{item[1]}
 
     script.
-        if(alert==='data stored succesfully'){
+        if(alert === 'data stored succesfully'){
             var allForms = document.querySelectorAll('.form-container');
             allForms.forEach(function (form) {
                 form.style.display = 'none';
             })
-            status = "Configured"
         };
 
+        function setStatus(index){
+            arduinos[index][1] = "Configured"
+        }
+
+        function hideViewPassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+                hideView = "Hide password";
+            } else {
+                x.type = "password";
+                hideView = "View password";
+            }
+        }
+
         function toggleFormVisibility(item) {
-
-
             // Get the selected form
             var formDiv = document.getElementById(item);
 
