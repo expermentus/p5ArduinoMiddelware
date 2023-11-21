@@ -24,10 +24,11 @@ def SetupArduinos():
 
         elif any(value is None for value in data.values()):
             print('Der står sgu at det er tomt')
-            pass
             time.sleep(2)
+            pass
 
         else:
+            print('Så der sgu hul igennem du!')
             break
 
     generate_header_file('init_sketch/arduino_secrets.h',
@@ -60,7 +61,7 @@ def SetupArduinos():
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path='init_sketch',
                         board=arduino_name,
-                        COM_PORT=arduino_port, )
+                        COM_PORT=arduino_port)
 
     if compiler.compile():
         # http response
