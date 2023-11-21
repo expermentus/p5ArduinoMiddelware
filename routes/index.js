@@ -6,8 +6,6 @@ const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const connectionManager = require("../connectionManager");
 
-global.insertedData = null;
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
@@ -59,7 +57,7 @@ router.post('/deviceSetup', async(req, res) => {
         password: ssid_pass,
         stopic: topic,
       };
-      res.render('deviceSetup', { title: 'Device Setup Page' });
+      res.render('deviceSetup', { title: 'Device Setup Page', alert: 'data stored succesfully' });
     });
   });
 });

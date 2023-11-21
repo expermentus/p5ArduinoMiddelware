@@ -4,6 +4,7 @@ block content
     div(class='text-center center-div')
         h1 List of discovered devices
 
+
     each item in arduinos
         div.form-container(style="display: none;" id=item)
             div(class='text-center center')
@@ -21,12 +22,18 @@ block content
 
     div(class="row center")
         each item in arduinos
-            button.button(onclick=`toggleFormVisibility('${item}')`, height="auto", width="auto")
+            button.button(onclick=`toggleFormVisibility("${item}")`, height="auto", width="auto")
                 span.text #{item}
 
 
 
     script.
+        if(alert=='data stored succesfully'){
+            var allForms = document.querySelectorAll('.form-container');
+            allForms.forEach(function (form) {
+                form.style.display = 'none';
+            })
+        };
         function toggleFormVisibility(item) {
             // Get the selected form
             var formDiv = document.getElementById(item);
