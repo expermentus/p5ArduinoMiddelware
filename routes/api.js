@@ -4,6 +4,8 @@ const mysql = require('mysql2');
 const fs = require('fs');
 const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
+const {BlobServiceClient} = require("@azure/storage-blob");
+const {uploadManager} = require("../uploadManager");
 
 
 router.post('/test', function(req, res, next) {
@@ -40,5 +42,19 @@ router.get('/flag', function(req, res, next) {
     res.json({ message: 'HKN:{68t73458769q32gyuhaf}' });
 });
 
+router.get('/upload', async function (req, res, next) {
+    try {
+        const connectionString = "DefaultEndpointsProtocol=https;AccountName=p5test;AccountKey=DvxHnZVcWYvIxm7iqlbhyI8ngBwbTxaJGXR4pArlA47vJIqgGAaSW6HNgrCuv4vTln0KhFzIgnaN+AStsKrPSg==;EndpointSuffix=core.windows.net\\n\"";
+        const containerName = "binfiles";
+        const filePath = "./binfiles/hej.bin";
 
+        const response = await uploadToAzureStorage(connectionString, containerName, filePath);
+
+        console.log("File uploaded successfully:", response.requestId);
+        res.send("File uploaded successfully");
+    } catch (error) {
+        console.error("Error uploading file to Azure Storage:", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
 module.exports = router;
