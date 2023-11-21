@@ -20,7 +20,7 @@ class Compiler:
 
     def compile(self):
         # runs command: arduino-cli compile -b (fqbn) -u (sketch_path) -p (COM)
-        # variables:    'cli_path' compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
+        # variables:    'cli_path' /arduino-cli.exe compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
         command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
         stripped_command = str(re.sub(r"['\[\]]", "", command))
         output = os.popen(stripped_command).read()
@@ -37,7 +37,7 @@ class Compiler:
         real_dump_path = os.path.abspath(dump_path)
         # runs command: arduino-cli compile -b (fqbn) -u (sketh_path) --build-path (dump_path)
         # variables:    'cli_path' compile -b 'fqbn' -u 'sketch_path' --build-path 'dump_path'
-        command = f"'{self.cli_path}' compile '{self.get_fqbn()}' -u '{self.sketch_path}' --output-dir '{real_dump_path}'"
+        command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' '{self.sketch_path}' --build-path {dump_path}"
         stripped_command = str(re.sub(r"['\[\]]", "", command))
         print(stripped_command)
         output = os.popen(stripped_command).read()
@@ -51,9 +51,12 @@ class Compiler:
 
 
 if __name__ == "__main__":
+
+    # compiles test projekt, og ligger alt det compilede i subfolderen test/test_compiled
+
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
-                        sketch_path='init_sketch',
+                        sketch_path='test',
                         board='Arduino MKR WiFi 1010',
                         COM_PORT='arduino_port')
 
-    compiler.server_compile('dicts')
+    compiler.server_compile('test/test_compiled')
