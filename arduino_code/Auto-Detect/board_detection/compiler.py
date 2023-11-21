@@ -24,8 +24,10 @@ class Compiler:
         command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
         stripped_command = str(re.sub(r"['\[\]]", "", command))
         output = os.popen(stripped_command).read()
+        print(output)
 
         if '100%' in output:
             return True
+
         else:
             return False

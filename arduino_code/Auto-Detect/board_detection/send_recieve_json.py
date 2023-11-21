@@ -39,6 +39,11 @@ def receive_json():
 
     # API json:
     json = response_testget.json()
+
+    if not json:
+        # No data
+        return False
+
     data = {
         'choice': json.get('choice', None),
         'ssid': json.get('ssid', None),
