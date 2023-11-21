@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="WS-213.6777.57">
+    <data-source name="IdIoT_Middleware@130.255.39.23" uuid="4ee0fad0-cf70-4296-bca3-61f4ded908c1">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>p5</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>
