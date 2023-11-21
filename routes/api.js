@@ -19,11 +19,22 @@ router.post('/test', function(req, res, next) {
     try {
         const parsedData = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
         console.log('Received JSON data:', parsedData);
-        // You can now use parsedData as needed
-        if (parsedData.hasOwnProperty('arduino')) {
-            // Update the global array 'arduinos'
-            arduinos = parsedData['arduino'];
+
+        // Check if the parsed data is an array
+        if (Array.isArray(parsedData)) {
+            // Iterate over each object in the array
+            parsedData.forEach(item => {
+                // Check if the object has 'arduino' property
+                if (item.hasOwnProperty('arduino') && Array.isArray(item.arduino)) {
+                    // Add each Arduino model to the global array 'arduinos'
+                    arduinos = arduinos.concat(item.arduino);
+                }
+            });
+        } else {
+            console.error('Invalid JSON data format. Expected an array.');
+            return res.status(400).json({ error: 'Invalid JSON data format. Expected an array.' });
         }
+
         // Respond with a success message
         res.json({ message: 'Received and processed JSON data' });
     } catch (err) {
