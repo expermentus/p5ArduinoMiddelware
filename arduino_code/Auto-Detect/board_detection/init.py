@@ -17,17 +17,24 @@ def SetupArduinos():
     while 1:
         data = receive_json()
 
-        if any(value is not None for value in data.values()):
-            break
+        if data is False:
+            print('No data')
+            time.sleep(2)
+            pass
 
-        time.sleep(0.25)
+        elif any(value is None for value in data.values()):
+            print('Der står sgu at det er tomt')
+            time.sleep(2)
+            pass
+
+        else:
+            print('Så der sgu hul igennem du!')
+            break
 
     generate_header_file('init_sketch/arduino_secrets.h',
                          data['ssid'],
                          data['password'],
-                         data['stopic'],
-                         data['mqttun'],
-                         data['mqttpw'])
+                         data['stopic'])
     choice = None
 
     try:
@@ -54,7 +61,7 @@ def SetupArduinos():
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path='init_sketch',
                         board=arduino_name,
-                        COM_PORT=arduino_port, )
+                        COM_PORT=arduino_port)
 
     if compiler.compile():
         # http response

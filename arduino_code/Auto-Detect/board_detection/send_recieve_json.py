@@ -5,10 +5,11 @@ import json
 def send_json(arduinos):
     url = 'http://130.225.39.149/api/test'
 
-    # Create a sample JSON payload (replace this with your actual data)
-    json_data_to_send = {
-        "arduino1": [arduino[0] for arduino in arduinos],
-    }
+    # Create a sample JSON payload
+    json_data_to_send = []
+
+    for arduino in arduinos:
+        json_data_to_send.append({"arduino": [arduino[0][0]], "status": "discovered"})
 
     try:
         # Convert the dictionary to JSON
@@ -20,9 +21,6 @@ def send_json(arduinos):
 
         # Assuming the API response contains JSON data
         api_response = response.json()
-
-        # Print the API response
-        print('API Response:', api_response)
 
     except requests.exceptions.RequestException as err:
         print(f'Error making the request: {err}')
@@ -39,14 +37,19 @@ def receive_json():
 
     # Print the JSON response from /api/testget
     print('API Response from /api/testget:', response_testget.json())
+
+    # API json:
     json = response_testget.json()
+
+    if not json:
+        # No data
+        return False
+
     data = {
         'choice': json.get('choice', None),
         'ssid': json.get('ssid', None),
         'password': json.get('password', None),
-        'stopic': json.get('password', None),
-        'mqttun': json.get('mqttun', None),
-        'mqttpw': json.get('mqttpw', None)
+        'stopic': json.get('stopic', None)
     }
 
     return json

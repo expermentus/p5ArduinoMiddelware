@@ -29,7 +29,7 @@ body {
   width: 100%;
   height: 80px; /* Adjust the height as needed */
   display: flex;
-  margin-bottom: 80px;
+  margin-bottom: -30px;
 }
 
 .container-wrapper {
@@ -68,6 +68,7 @@ textarea {
 .button {
   width: 150px;
   height: 60px;
+  aspect-ratio: 15/6;
   border-radius: 5px;
   border: 2px solid var(--main-color);
   background-color: var(--bg-color);
@@ -90,6 +91,7 @@ textarea {
   padding: 20px;
   background: var(--bg-color);
   display: flex;
+  position: fixed;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -129,7 +131,7 @@ textarea {
 
 .input::placeholder {
   color: var(--font-color-sub);
-  opacity: 0.8;
+  opacity: 0.2;
 }
 
 .input:focus {
@@ -196,7 +198,7 @@ textarea {
 }
 
 .refresh {
-  position: relative;
+  position: static;
   top: 0px;
   left: -230px;
   margin-top: 0px;
@@ -204,7 +206,7 @@ textarea {
 }
 
 .image {
-  height: 150px;
+  height: 70px;
   width: auto;
   border-radius: 105px;
 }
@@ -268,3 +270,10 @@ textarea {
   margin: 10px;
 }
 
+
+
+.row {
+  display: flex;
+  justify-content: center;
+  width: 550px;
+}

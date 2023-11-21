@@ -5,9 +5,9 @@ USE `IdIoT_Middleware`;
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `model_name` varchar(255) DEFAULT NULL,
-  `number_of_pins` int DEFAULT NULL,
-  `chosen_usecase` varchar(255) DEFAULT NULL,
+  `ssid` varchar(255) DEFAULT NULL,
+  `ssid_pass` varchar(255) DEFAULT NULL,
+  `topic` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `devices` (
 CREATE TABLE IF NOT EXISTS `sensor_data` (
   `id` int NOT NULL AUTO_INCREMENT,
   `device_id` int default NULL,
-  `temperature` int default NULL,
-  `humidity` int default NULL,
+  `data_name` varchar(255) default NULL,
+  `reading` int default NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `device_id` (`device_id`),
