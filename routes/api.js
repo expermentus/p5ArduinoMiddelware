@@ -5,7 +5,7 @@ const fs = require('fs');
 const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const {BlobServiceClient} = require("@azure/storage-blob");
-const {uploadManager} = require("../uploadManager");
+const uploadToAzureStorage = require("../uploadManager");
 
 
 router.post('/test', function(req, res, next) {
@@ -19,11 +19,22 @@ router.post('/test', function(req, res, next) {
     try {
         const parsedData = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
         console.log('Received JSON data:', parsedData);
-        // You can now use parsedData as needed
-        if (parsedData.hasOwnProperty('arduino1')) {
-            // Update the global array 'arduinos'
-            arduinos = parsedData['arduino1'];
+
+        // Check if the parsed data is an array
+        if (Array.isArray(parsedData)) {
+            // Iterate over each object in the array
+            parsedData.forEach(item => {
+                // Check if the object has 'arduino' property
+                if (item.hasOwnProperty('arduino') && Array.isArray(item.arduino)) {
+                    // Add each Arduino model to the global array 'arduinos'
+                    arduinos = item.arduino;
+                }
+            });
+        } else {
+            console.error('Invalid JSON data format. Expected an array.');
+            return res.status(400).json({ error: 'Invalid JSON data format. Expected an array.' });
         }
+
         // Respond with a success message
         res.json({ message: 'Received and processed JSON data' });
     } catch (err) {
@@ -44,11 +55,9 @@ router.get('/flag', function(req, res, next) {
 
 router.get('/upload', async function (req, res, next) {
     try {
-        const connectionString = "DefaultEndpointsProtocol=https;AccountName=p5test;AccountKey=DvxHnZVcWYvIxm7iqlbhyI8ngBwbTxaJGXR4pArlA47vJIqgGAaSW6HNgrCuv4vTln0KhFzIgnaN+AStsKrPSg==;EndpointSuffix=core.windows.net\\n\"";
         const containerName = "binfiles";
         const filePath = "./binfiles/hej.bin";
-
-        const response = await uploadToAzureStorage(connectionString, containerName, filePath);
+        const response = await uploadToAzureStorage(containerName, filePath);
 
         console.log("File uploaded successfully:", response.requestId);
         res.send("File uploaded successfully");

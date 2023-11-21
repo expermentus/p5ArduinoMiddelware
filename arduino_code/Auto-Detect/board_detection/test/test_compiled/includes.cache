@@ -1,0 +1,17 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\caspe\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.13\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\caspe\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.13\\variants\\mkrwifi1010"
+  },
+  {
+    "Sourcefile": "C:\\Users\\caspe\\OneDrive\\Desktop\\Github\\p5ArduinoMiddelware\\arduino_code\\Auto-Detect\\board_detection\\test\\test_compiled\\sketch\\test.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

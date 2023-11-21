@@ -11,7 +11,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
 });
 
-/* GET home page. */
+router.get('/update', function(req, res, next) {
+  res.render('updateDeviceSoftware', { title: 'Arduino middelware' });
+});
+
 router.get('/deviceSetup', function(req, res, next) {
   res.render('deviceSetup', { title: 'Device Setup Page', status: 'Discovered'});
   console.log(arduinos)
