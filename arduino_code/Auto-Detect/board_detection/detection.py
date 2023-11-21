@@ -43,7 +43,6 @@ if __name__ == "__main__":
         print("pid: ", ard[1].pid)
         print("vid: ", ard[1].vid)
         print("description: ", ard[1].description)
-        print("COM: ", re.sub(r'COM', '', ard[1].name))
     # Print non-Arduino connections
     for nard in not_arduinos:
         print("Non-Arduino Connection:", nard)

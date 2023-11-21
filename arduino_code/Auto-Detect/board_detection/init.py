@@ -61,7 +61,7 @@ def SetupArduinos():
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path='init_sketch',
                         board=arduino_name,
-                        COM_PORT=arduino_port, )
+                        COM_PORT=arduino_port)
 
     if compiler.compile():
         # http response
