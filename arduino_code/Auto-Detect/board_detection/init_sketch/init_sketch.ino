@@ -25,7 +25,7 @@
 #include <ArduinoOTA.h> // only for InternalStorage
 #include <ArduinoHttpClient.h>
 #include <PubSubClient.h>
-#include <arduino_secrets.h>
+#include "arduino_secrets.h"
 
 
 const short VERSION = 1;
