@@ -184,7 +184,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println(" bytes:");
 
   Serial.print("Payload: ");
-  char messageBuffer[length];
+  char messageBuffer[length - 1];
 
 
   for (int i = 0; i < length; i++) {
