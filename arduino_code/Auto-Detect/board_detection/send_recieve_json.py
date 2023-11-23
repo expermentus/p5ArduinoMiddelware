@@ -9,7 +9,7 @@ def send_json(arduinos):
     json_data_to_send = []
 
     for arduino in arduinos:
-        json_data_to_send.append({"arduino": [arduino[0]], "status": "discovered"})
+        json_data_to_send.append({"arduino": [arduino[0], "discovered"]})
 
     try:
         # Convert the dictionary to JSON
