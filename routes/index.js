@@ -11,9 +11,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
 });
 
-/* GET home page. */
+router.get('/update', function(req, res, next) {
+  res.render('updateDeviceSoftware', { title: 'Arduino middelware' });
+});
+
 router.get('/deviceSetup', function(req, res, next) {
-  res.render('deviceSetup', { title: 'Device Setup Page' });
+  res.render('deviceSetup', { title: 'Device Setup Page', status: 'Discovered'});
   console.log(arduinos)
 });
 
@@ -21,6 +24,7 @@ router.post('/deviceSetup', async(req, res) => {
   const connection = connectionManager.getConnection();
   const query = 'SELECT name FROM devices';
   const { name, ssid, ssid_pass } = req.body;
+  const status = "configured"
   var countSameName = 0;
   var topic;
 
@@ -40,8 +44,8 @@ router.post('/deviceSetup', async(req, res) => {
     topic = topic.replace(/[^a-zA-Z0-9]/g, '');
 
     // Insert data into the database
-    const sql = 'INSERT INTO devices (name, ssid, ssid_pass, topic) VALUES (?, ?, ?, ?)';
-    const values = [name, ssid, ssid_pass, topic];
+    const sql = 'INSERT INTO devices (name, ssid, topic, status) VALUES (?, ?, ?, ?)';
+    const values = [name, ssid, topic, status];
 
     getConnection().query(sql, values, (err, result) => {
       if (err) {

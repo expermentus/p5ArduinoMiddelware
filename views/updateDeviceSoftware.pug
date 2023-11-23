@@ -1,0 +1,76 @@
+extends layout
+
+block content
+    div(class='text-center center')
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet' href='styles.css')
+        title Code Editor
+
+        div(class='horizontal-container')
+            div(class='vertical-container')
+                textarea#codeInput(placeholder='Write your code here...', class='cartoon-container', style="width: 1000px")
+                div(class='horizontal-container')
+                    .dropdown
+                        button.button(onclick="toggleDropdown()")
+                            span.text Chose device
+                            #myDropdown.dropdown-content
+                                a.button(href="#") Option 1
+                                a.button(href="#") Option 2
+                                a.button(href="#") Option 3
+                    button.button(onclick='updateCode()')
+                        span.text Update
+                    button.button(onclick='goBack()')
+                        span.text Back
+
+            div(class='text-center center-right')
+                div(class='text-center center')
+                    button.button(onclick='')
+                        span.text code1
+                div(class='text-center center')
+                    button.button(onclick='')
+                        span.text code2
+                div(class='text-center center')
+                    button.button(onclick='')
+                        span.text code4
+                div(class='text-center center')
+                    button.button(onclick='')
+                        span.text code5
+
+
+    script.
+        // Define a global variable to store the code
+        let codeContent = "";
+
+        function updateCode() {
+            // Get the value from the textarea
+            const codeInput = document.getElementById("codeInput").value;
+
+            // Update the global variable with the input value
+            codeContent = codeInput;
+
+            console.log(codeContent)
+            // You can add code here to handle the update functionality
+            //alert("Code Updated!");
+        }
+
+        function goBack() {
+            // This will take the user back to the previous page
+            window.history.back();
+        }
+
+        // Function to toggle the dropdown menu visibility
+        function toggleDropdown() {
+            let dropdown = document.getElementById("myDropdown");
+            dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                const dropdown = document.getElementById("myDropdown");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                }
+            }
+        }

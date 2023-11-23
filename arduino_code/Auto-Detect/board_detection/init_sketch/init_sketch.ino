@@ -116,6 +116,15 @@ void handleSketchDownload(char PATH[]) {
   InternalStorage.apply(); // this doesn't return
   Serial.println("done");
 
+    // Call the function and pass the message buffer
+    handleSketchDownload(messageBuffer);
+  }
+  // use the Stream interface to print the contents
+  while (mqttClient.available()) {
+    Serial.print((char)mqttClient.read());
+  }
+  Serial.println();
+  Serial.println();
 }
 
 void setup() {
