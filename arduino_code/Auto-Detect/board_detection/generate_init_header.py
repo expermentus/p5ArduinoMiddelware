@@ -7,6 +7,8 @@ def generate_header_file(path, SSID, Password, stopic):
     #define SECRET_SSID "{SSID}"
     #define SECRET_PASS "{Password}"
     #define SECRET_STOPIC "{stopic}"
+    #define SECRET_UN "mqtt"; 
+    #define SECRET_PW "idiot"; 
     #define SECRET_BROKER "130.225.37.228"
     #define SECRET_PORT 1883
     """
