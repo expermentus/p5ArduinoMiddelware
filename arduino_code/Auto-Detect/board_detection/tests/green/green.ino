@@ -35,6 +35,7 @@ const short VERSION = 1;
 const char MY_SSID[] = SECRET_SSID; // Loaded from arduino_secrets.h
 const char MY_PASS[] = SECRET_PASS; // Loaded from arduino_secrets.h
 
+
 //WiFiClient    wifiClient;  // HTTP
 WiFiSSLClient wifiClientSSL;  // HTTPS
 MKRIoTCarrier carrier;

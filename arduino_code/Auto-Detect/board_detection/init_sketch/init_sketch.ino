@@ -21,27 +21,29 @@
 */
 #include <WiFiNINA.h>
 #include <Arduino_MKRIoTCarrier.h>
-#include <ArduinoMqttClient.h>
-// Please enter your WiFi sensitive data in the arduino_secrets.h file
-#include "arduino_secrets.h"
 #define NO_OTA_NETWORK
 #include <ArduinoOTA.h> // only for InternalStorage
 #include <ArduinoHttpClient.h>
+#include <PubSubClient.h>
+#include <arduino_secrets.h>
 
 
 const short VERSION = 1;
 
 const char MY_SSID[] = SECRET_SSID; // Loaded from arduino_secrets.h
 const char MY_PASS[] = SECRET_PASS; // Loaded from arduino_secrets.h
-const char topic[] = SECRET_STOPIC; // Loaded from arduino_secrets.h
-const char broker[] = SECRET_BROKER;
-int        port     = SECRET_PORT;
+const char otatopic[] = SECRET_STOPIC; // Loaded from arduino_secrets.h
+const char broker[] = SECRET_BROKER; // Loaded from arduino_secrets.h
+int        port     = SECRET_PORT; // Loaded from arduino_secrets.h
+const char username[] = SECRET_UN; // Loaded from arduino_secrets.h
+const char password[] = SECRET_PW; // Loaded from arduino_secrets.h
 
 WiFiClient    wifiClient;  // HTTP
 WiFiSSLClient wifiClientSSL;  // HTTPS
 MKRIoTCarrier carrier;
-int status = WL_IDLE_STATUS;
-MqttClient mqttClient(wifiClient);
+
+PubSubClient mqttClient(wifiClient);
+
 
 
 void handleSketchDownload(char PATH[]) {
@@ -100,7 +102,7 @@ void handleSketchDownload(char PATH[]) {
   }
   InternalStorage.close();
   client.stop();
-  
+
   if (length > 0) {
     Serial.print("Timeout downloading update file at ");
     Serial.print(length);
@@ -136,9 +138,13 @@ void setup() {
   Serial.print("Attempting to connect to the MQTT broker: ");
   Serial.println(broker);
 
-  if (!mqttClient.connect(broker, port)) {
+    // Configure MQTT broker
+  mqttClient.setServer(broker, port);
+  mqttClient.setCallback(callback);
+
+  if (!mqttClient.connect("arduino", username, password)) {
     Serial.print("MQTT connection failed! Error code = ");
-    Serial.println(mqttClient.connectError());
+    Serial.println(mqttClient.state());
 
     while (1);
   }
@@ -146,54 +152,51 @@ void setup() {
   Serial.println("You're connected to the MQTT broker!");
   Serial.println();
 
-  // set the message receive callback
-  mqttClient.onMessage(onMqttMessage);
 
   Serial.print("Subscribing to topic: ");
-  Serial.println(topic);
+  Serial.println(otatopic);
   Serial.println();
 
   // subscribe to a topic
-  mqttClient.subscribe(topic);
+  mqttClient.subscribe(otatopic);
 
 
   // topics can be unsubscribed using:
   // mqttClient.unsubscribe(topic);
 
   Serial.print("Topic: ");
-  Serial.println(topic);
+  Serial.println(otatopic);
 
   Serial.println();
   carrier.begin();
   carrier.display.fillScreen(0xFBC0); // green
-  
+
 }
 
 void loop() {
-  mqttClient.poll();
+  mqttClient.loop();
 }
 
-void onMqttMessage(int messageSize) {
+void callback(char* topic, byte* payload, unsigned int length) {
   // we received a message, print out the topic and contents
   Serial.println("Received a message with topic '");
-  Serial.print(mqttClient.messageTopic());
+  Serial.print(topic);
   Serial.print("', length ");
-  Serial.print(messageSize);
+  Serial.print(length);
   Serial.println(" bytes:");
 
-  if(mqttClient.messageTopic() == topic){
-    // Read the message into a buffer
-    char messageBuffer[messageSize + 1]; // +1 for null terminator
-    mqttClient.readBytes(messageBuffer, messageSize);
-    messageBuffer[messageSize] = '\0'; // Null-terminate the string
+  Serial.print("Payload: ");
+  char messageBuffer[length];
+
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+    messageBuffer[i] = (char)payload[i];
+  }
+  Serial.println();
 
     // Call the function and pass the message buffer
     handleSketchDownload(messageBuffer);
-  }
-  // use the Stream interface to print the contents
-  while (mqttClient.available()) {
-    Serial.print((char)mqttClient.read());
-  }
-  Serial.println();
-  Serial.println();
+
+
 }
