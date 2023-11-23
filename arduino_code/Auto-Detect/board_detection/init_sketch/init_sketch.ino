@@ -45,7 +45,6 @@ MKRIoTCarrier carrier;
 PubSubClient mqttClient(wifiClient);
 
 
-
 void handleSketchDownload(char PATH[]) {
   const char* SERVER = "p5test.blob.core.windows.net";  // Set your correct hostname
   const unsigned short SERVER_PORT = 443;     // Commonly 80 (HTTP) | 443 (HTTPS)
@@ -193,9 +192,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     messageBuffer[i] = (char)payload[i];
   }
   Serial.println();
+  Serial.println(messageBuffer);
 
-    // Call the function and pass the message buffer
-    handleSketchDownload(messageBuffer);
+
+  // Call the function and pass the message buffer
+  handleSketchDownload(messageBuffer);
 
 
 }
