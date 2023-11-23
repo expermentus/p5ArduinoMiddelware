@@ -130,7 +130,11 @@ void setup() {
     delay(5000);
   }
 
+  Serial.println("You're connected to the network");
+  Serial.println();
 
+  Serial.print("Attempting to connect to the MQTT broker: ");
+  Serial.println(broker);
 
     // Configure MQTT broker
   mqttClient.setServer(broker, port);
@@ -142,24 +146,53 @@ void setup() {
 
     while (1);
   }
+
+  Serial.println("You're connected to the MQTT broker!");
+  Serial.println();
+
+
+  Serial.print("Subscribing to topic: ");
+  Serial.println(otatopic);
+  Serial.println();
+
   // subscribe to a topic
   mqttClient.subscribe(otatopic);
+
+
   // topics can be unsubscribed using:
   // mqttClient.unsubscribe(topic);
+
+  Serial.print("Topic: ");
+  Serial.println(otatopic);
+
+  Serial.println();
   carrier.begin();
   carrier.display.fillScreen(0xFBC0); // green
+
 }
+
 void loop() {
   mqttClient.loop();
 }
+
 void callback(char* topic, byte* payload, unsigned int length) {
   // we received a message, print out the topic and contents
+  Serial.println("Received a message with topic '");
+  Serial.print(topic);
+  Serial.print("', length ");
+  Serial.print(length);
+  Serial.println(" bytes:");
+
+  Serial.print("Payload: ");
   char messageBuffer[length - 1];
+
 
   for (int i = 0; i < length; i++) {
     messageBuffer[i] = (char)payload[i];
   }
   messageBuffer[length] = '\0';
+
+
 
   // Call the function and pass the message buffer
   handleSketchDownload(messageBuffer);
