@@ -6,6 +6,8 @@ const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const {BlobServiceClient} = require("@azure/storage-blob");
 const uploadToAzureStorage = require("../uploadManager");
+const { spawn } = require('child_process');
+const path = require('path');
 
 
 router.post('/test', function(req, res, next) {
@@ -55,6 +57,39 @@ router.get('/flag', function(req, res, next) {
 
 router.get('/upload', async function (req, res, next) {
     try {
+        // Get relative path and construct the full path to arduino-cli.exe
+        const scriptDir = __dirname;
+        const cli_path = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'arduino-cli_0.34.2_Windows_64bit', 'arduino-cli.exe')
+        // TODO:
+        // sketch_path
+        // board_name
+        const dump_path = path.join(scriptDir, 'binfiles')
+
+        // script dir:
+        const pythonScript = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'server_compile.py');
+
+        // arguments for function:
+        // TODO: define sketch path and get board name
+        const arguments = [cli_path, 'sketch_path', 'board_name', dump_path];
+
+        // Spawn a child process to run the Python script
+        const pythonProcess = spawn('python', [pythonScript, ...arguments]);
+
+        // Listen for data from the Python script's stdout
+        pythonProcess.stdout.on('data', (data) => {
+        console.log(`Python Output: ${data}`);
+        });
+
+        // Listen for errors from the Python script's stderr
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`Python Error: ${data}`);
+        });
+
+        // Listen for the Python script to exit
+        pythonProcess.on('close', (code) => {
+            console.log(`Python process exited with code ${code}`);
+        });
+
         const containerName = "binfiles";
         const filePath = "./binfiles/hej.bin";
         const response = await uploadToAzureStorage(containerName, filePath);
