@@ -1,12 +1,14 @@
 import re, os, time
 from detection import check_ports
-from compiler import Compiler
+from compiler import Compiler, config
 from generate_init_header import generate_header_file
 from send_recieve_json import send_json, receive_json
 
 
 def SetupArduinos():
     arduinos, notarduinos = check_ports()
+
+    config('arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe')
 
     if len(arduinos) == 0:
         print('No arduinos found')
