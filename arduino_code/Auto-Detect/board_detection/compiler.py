@@ -19,7 +19,14 @@ class Compiler:
         else:
             return None
 
+    def config(self):
+        command = f"'{self.cli_path}' core install arduino:samd'"
+        stripped_command = str(re.sub(r"['\[\]]", "", command))
+        output = os.popen(stripped_command).read()
+        print(output)
+
     def compile(self):
+        Compiler.config(self)
         # runs command: arduino-cli compile -b (fqbn) -u (sketch_path) -p (COM)
         # variables:    'cli_path' /arduino-cli.exe compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
         command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
@@ -41,6 +48,8 @@ def server_compile(cli_path, sketch_path, board, dump_path):
     temp_compiler = Compiler(cli_path=cli_path,
                              sketch_path=sketch_path,
                              board=board)
+
+    temp_compiler.config()
 
     # extract complete path
     real_dump_path = os.path.abspath(dump_path)
@@ -66,12 +75,6 @@ def server_compile(cli_path, sketch_path, board, dump_path):
         # removing dirs:
         elif os.path.isdir(file_path):
             shutil.rmtree(file_path)
-
-    if '100%' in output:
-        return True
-
-    else:
-        return False
 
 
 if __name__ == "__main__":

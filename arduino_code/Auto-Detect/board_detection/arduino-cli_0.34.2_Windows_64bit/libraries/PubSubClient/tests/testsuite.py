@@ -39,7 +39,7 @@ class Workspace(object):
         os.chdir(self.build_dir)
         call(["ino", "init"])
 
-        shutil.copytree("../../PubSubClient", "lib/PubSubClient")
+        shutil.copytree("..", "lib/PubSubClient")
 
         filenames = []
         for root, dirs, files in os.walk(self.examples_dir):
