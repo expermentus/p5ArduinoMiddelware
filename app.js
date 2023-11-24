@@ -24,7 +24,7 @@ const mqtt = require('mqtt');
 
 var options = {
   port: 1883,
-  host: 'mqtt://130.225.37.228',
+  host: '130.225.37.228',
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
   username: 'mqtt',
   password: 'idiot',
@@ -37,8 +37,6 @@ var options = {
 };
 // Create an MQTT client
 global.mqttClient = mqtt.connect('mqtt://130.225.37.228', options);
-
-
 
 // Define the MQTT broker and port
 const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to
