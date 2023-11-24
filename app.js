@@ -13,7 +13,7 @@ var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
 
-global.arduinos = [["testing solo", "Discovered"]];
+global.arduinos = [["testing solo", "Discovered"],["testing solo 2", "configured"]];
 global.insertedData = null;
 
 var app = express();
@@ -23,12 +23,15 @@ app.use(bodyParser.text());
 const mqtt = require('mqtt');
 
 // Define the MQTT broker and port
-const brokerAddress = 'mqtt://test.mosquitto.org';
+const brokerAddress = 'mqtt://130.225.37.228';
 const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to
 
 
 // Create an MQTT client
-const client = mqtt.connect(brokerAddress);
+global.mqttClient = mqtt.connect(brokerAddress,{
+  username: 'mqtt',
+  password: 'idiot'
+});
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
 
@@ -38,7 +41,7 @@ global.listMes2 = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 
 
 // Callback function to handle incoming messages
-client.on('message', (topic, message) => {
+mqttClient.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
   if (topic.toString() === 'middelware_temperature_topic'){
     global.mes =  message.toString();
@@ -58,12 +61,12 @@ client.on('message', (topic, message) => {
 
 
 // Connect to the MQTT broker
-client.on('connect', () => {
+mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
 
   // Subscribe to the specified topics
   topics.forEach((topic) => {
-    client.subscribe(topic, (err) => {
+    mqttClient.subscribe(topic, (err) => {
       if (!err) {
         console.log(`Subscribed to topic: ${topic}`);
       }
@@ -72,7 +75,7 @@ client.on('connect', () => {
 });
 
 // Handle errors
-client.on('error', (error) => {
+mqttClient.on('error', (error) => {
   console.error(`Error: ${error}`);
 });
 

@@ -59,19 +59,27 @@ router.post('/upload', async function (req, res, next) {
     // Access the code content from the request body
     try {
         // Access the code content from the request body
-        const codeContent = req.body;
+        const { codeContent, topic, ssid, password } = req.body;
+
+        await createSecretsFile(topic, ssid,password);
 
         // Create a binary file
         const binFilePath = await createBin(codeContent);
 
         // Upload the binary file to Azure Storage
         const containerName = "binfiles";
-        const newFilePath = "./binfiles/casper0.ino.bin";
+        const newFilePath = `./binfiles/${topic}.ino.bin`;
         fs.rename( binFilePath, newFilePath, () => {});
         const response = await uploadToAzureStorage(containerName, newFilePath);
 
         console.log("File uploaded successfully:", response.requestId);
+        console.log(newFilePath.substring(1));
+        mqttClient.publish(topic, newFilePath.substring(1));
         res.send("File uploaded successfully");
+
+
+
+
     } catch (error) {
         console.error("Error uploading file to Azure Storage:", error.message);
         res.status(500).send("Internal Server Error");
@@ -122,6 +130,27 @@ async function createBin(codeContent) {
                 });
             }
         });
+    });
+}
+async function createSecretsFile(topic, secretSSID, secretPass) {
+    const fileContent = `#define SECRET_SSID "${secretSSID}" // Your network SSID (name)
+#define SECRET_PASS "${secretPass}" // Your network password
+#define SECRET_STOPIC "${topic}" // Your network password
+#define SECRET_BROKER "130.225.37.228" // Your network password
+#define SECRET_PORT 1883 // Your network password
+#define SECRET_UN "mqtt" // Your network password
+#define SECRET_PW "idiot" // Your network password`;
+
+    const filePath = path.join(__dirname, '../sketch_files/arduino_Secrets.h');
+
+    fs.writeFile(filePath, fileContent, (err) => {
+        if (err) {
+            console.error('Error writing file:', err);
+        } else {
+            console.log(`Secrets file created at: ${filePath}`);
+
+            return filePath;
+        }
     });
 }
 

@@ -12,17 +12,27 @@ block content
                 form(method='POST', action='/updateDeviceSoftware')
                     textarea(placeholder='Write your code here...', id="contentTextarea", class='cartoon-container', style="width: 1000px")
                 div(class='horizontal-container')
-                    .dropdown
+                    for item in arduinos
+                        if item[1] === "configured"
+                            button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
+                                span.text #{item[0]} <br> Status: #{item[1]}
+
+                    //.dropdown
                         button.button(onclick="toggleDropdown()")
                             span.text Chose device
                             #myDropdown.dropdown-content
                                 a.button(href="#") Option 1
                                 a.button(href="#") Option 2
                                 a.button(href="#") Option 3
-                    button.button(onclick='updateCode()')
+                    button.button(onclick='updateCode()', )
                         span.text Update
-                    button.button(onclick='goBack()')
-                        span.text Back
+                div(class='horizontal-container')
+                    input(type= 'text', placeholder='PLACEHOLDE MQTT TOPIC', id="TOPIC", class='cartoon-container', style='width: 100px')
+                div(class='horizontal-container')
+                    input(type= 'text', placeholder='WiFi SSID', id="SSID", class='cartoon-container', style='width: 100px')
+                div(class='horizontal-container')
+                    input(type='password', placeholder='WiFi Password', id="PASSWORD", class='cartoon-container', style="width: 100px")
+
 
             div(class='text-center center-right')
                 div(class='text-center center')
@@ -44,14 +54,26 @@ block content
         function updateCode() {
             // Get the value from the textarea
             var codeContent = document.getElementById("contentTextarea").value;
+            var topic = document.getElementById("TOPIC").value;
+            var ssid = document.getElementById("SSID").value;
+            var password = document.getElementById("PASSWORD").value;
             // Define the data to be sent in the POST request
+            // Make the POST request
+            // Define the data to be sent in the POST request
+            var postData = {
+                codeContent: codeContent,
+                topic: topic,
+                ssid: ssid,
+                password: password
+            };
+
             // Make the POST request
             fetch('/api/upload', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain' // Set the content type to plain text
+                    'Content-Type': 'application/json' // Set the content type to JSON
                 },
-                body: codeContent // Send the code content directly as the request body
+                body: JSON.stringify(postData) // Convert the data to JSON format
             })
                 .then(response => {
                     if (!response.ok) {
