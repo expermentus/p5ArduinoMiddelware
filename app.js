@@ -22,16 +22,29 @@ app.use(bodyParser.text());
 
 const mqtt = require('mqtt');
 
+var options = {
+  port: 1883,
+  host: 'mqtt://130.225.37.228',
+  clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+  username: 'mqtt',
+  password: 'idiot',
+  keepalive: 60,
+  reconnectPeriod: 1000,
+  protocolId: 'MQIsdp',
+  protocolVersion: 3,
+  clean: true,
+  encoding: 'utf8'
+};
+// Create an MQTT client
+global.mqttClient = mqtt.connect('mqtt://130.225.37.228', options);
+
+
+
 // Define the MQTT broker and port
-const brokerAddress = 'mqtt://130.225.37.228';
 const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to
 
 
-// Create an MQTT client
-global.mqttClient = mqtt.connect(brokerAddress,{
-  username: 'mqtt',
-  password: 'idiot'
-});
+
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
 
@@ -69,9 +82,16 @@ mqttClient.on('connect', () => {
     mqttClient.subscribe(topic, (err) => {
       if (!err) {
         console.log(`Subscribed to topic: ${topic}`);
+      } else {
+        console.error(`Failed to subscribe to topic ${topic}: ${err}`);
       }
     });
   });
+});
+
+// Handle errors
+mqttClient.on('error', (error) => {
+  console.error(`Error connecting to MQTT broker: ${error}`);
 });
 
 // Handle errors
