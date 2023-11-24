@@ -57,65 +57,72 @@ router.get('/flag', function(req, res, next) {
 
 router.post('/upload', async function (req, res, next) {
     // Access the code content from the request body
-    const codeContent = req.body;
-
-    // Create a file with the code content
-    fs.writeFile('./sketch_files/codeFile.ino', codeContent, (err) => {
-        if (err) {
-            console.error('Error writing file:', err);
-        } else {
-            console.log('File written successfully');
-        }
-    });
-
     try {
-        // Get relative path and construct the full path to arduino-cli.exe
-        const scriptDir = process.cwd();
-        const cli_path = path.join(scriptDir,'arduino_code', 'Auto-Detect', 'board_detection', 'arduino-cli_0.34.2_Windows_64bit', 'arduino-cli.exe')
-        // TODO:
-        // sketch_path
-        // board_name
-        const dump_path = path.join(scriptDir, 'binfiles')
+        // Access the code content from the request body
+        const codeContent = req.body;
 
+        // Create a binary file
+        const binFilePath = await createBin(codeContent);
 
-        // script dir:
-        const pythonScript = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'server_compile.py');
-
-        // arguments for function:
-        // TODO: define sketch path and get board name
-        let sketch_path = scriptDir + '/sketch_files/codeFile.ino';
-        const arguments = [cli_path, sketch_path, 'Arduino MKR WiFi 1010', dump_path];
-
-        // Spawn a child process to run the Python script
-        const pythonProcess = spawn('python', [pythonScript, ...arguments]);
-
-        // Listen for data from the Python script's stdout
-        await pythonProcess.stdout.on('data', (data) => {
-        console.log(`Python Output: ${data}`);
-        });
-
-        // Listen for errors from the Python script's stderr
-        pythonProcess.stderr.on('data', (data) => {
-            console.error(`Python Error: ${data}`);
-        });
-
-        // Listen for the Python script to exit
-        pythonProcess.on('close', (code) => {
-            console.log(`Python process exited with code ${code}`);
-        });
-
-
+        // Upload the binary file to Azure Storage
         const containerName = "binfiles";
-        const filePath = "./binfiles/hej.bin";
-        const response = await uploadToAzureStorage(containerName, filePath);
+        const newFilePath = "./binfiles/casper0.ino.bin";
+        fs.rename( binFilePath, newFilePath, () => {});
+        const response = await uploadToAzureStorage(containerName, newFilePath);
 
         console.log("File uploaded successfully:", response.requestId);
         res.send("File uploaded successfully");
-
     } catch (error) {
         console.error("Error uploading file to Azure Storage:", error.message);
         res.status(500).send("Internal Server Error");
     }
-
 });
+
+
+
+
+async function createBin(codeContent) {
+    return new Promise((resolve, reject) => {
+        const scriptDir = process.cwd();
+        const sketchFilePath = path.join(scriptDir, 'sketch_files', 'sketch_files.ino');
+        const binFilePath = path.join(scriptDir, 'binfiles', 'sketch_files.ino.bin');
+
+        // Create a file with the code content
+        fs.writeFile(sketchFilePath, codeContent, (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+                reject(err);
+            } else {
+                console.log('File written successfully');
+
+                // Run the Python script to create the binary file
+                const cliPath = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'arduino-cli_0.34.2_Windows_64bit', 'arduino-cli.exe');
+                const dumpPath = path.join(scriptDir, 'binfiles');
+                const pythonScript = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'server_compile.py');
+                const arguments = [cliPath, sketchFilePath, 'Arduino MKR WiFi 1010', dumpPath];
+
+                const pythonProcess = spawn('python', [pythonScript, ...arguments]);
+
+                pythonProcess.stdout.on('data', (data) => {
+                    console.log(`Python Output: ${data}`);
+                });
+
+                pythonProcess.stderr.on('data', (data) => {
+                    console.error(`Python Error: ${data}`);
+                    reject(data);
+                });
+
+                pythonProcess.on('close', (code) => {
+                    console.log(`Python process exited with code ${code}`);
+                    if (code === 0) {
+                        resolve(binFilePath);
+                    } else {
+                        reject(`Python process exited with code ${code}`);
+                    }
+                });
+            }
+        });
+    });
+}
+
 module.exports = router;
