@@ -44,8 +44,6 @@ def server_compile(cli_path, sketch_path, board, dump_path):
                              sketch_path=os.path.abspath(sketch_path),
                              board=board)
 
-    temp_compiler.config()
-
     # extract complete path
     real_dump_path = os.path.abspath(dump_path)
     # runs command: arduino-cli compile -b (fqbn) -u (sketh_path) --build-path (dump_path)
