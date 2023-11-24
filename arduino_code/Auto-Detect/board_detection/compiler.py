@@ -62,12 +62,10 @@ def server_compile(cli_path, sketch_path, board, dump_path):
         # removing files:
         if os.path.isfile(file_path) and not file.endswith('.ino.bin'):
             os.remove(file_path)
-            print(f"Removed file: {file_path}")
 
         # removing dirs:
         elif os.path.isdir(file_path):
             shutil.rmtree(file_path)
-            print(f"Removed folder: {file_path}")
 
     if '100%' in output:
         return True
