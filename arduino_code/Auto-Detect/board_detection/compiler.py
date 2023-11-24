@@ -19,11 +19,6 @@ class Compiler:
         else:
             return None
 
-    def config(self):
-        command = f"'{self.cli_path}' core install arduino:samd'"
-        stripped_command = str(re.sub(r"['\[\]]", "", command))
-        output = os.popen(stripped_command).read()
-        print(output)
 
     def compile(self):
         Compiler.config(self)
@@ -45,8 +40,8 @@ class Compiler:
 def server_compile(cli_path, sketch_path, board, dump_path):
 
     # create a temporary compiler instance:
-    temp_compiler = Compiler(cli_path=cli_path,
-                             sketch_path=sketch_path,
+    temp_compiler = Compiler(cli_path=os.path.abspath(cli_path),
+                             sketch_path=os.path.abspath(sketch_path),
                              board=board)
 
     temp_compiler.config()
@@ -75,6 +70,12 @@ def server_compile(cli_path, sketch_path, board, dump_path):
         # removing dirs:
         elif os.path.isdir(file_path):
             shutil.rmtree(file_path)
+
+
+def config(cli_path):
+    command = f"'{os.path.abspath(cli_path)}' core install arduino:samd'"
+    stripped_command = str(re.sub(r"['\[\]]", "", command))
+    os.system(stripped_command)
 
 
 if __name__ == "__main__":
