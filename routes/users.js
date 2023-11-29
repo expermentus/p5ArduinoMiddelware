@@ -23,7 +23,7 @@ router.get('/', async function(req, res, next) {
     res.status(500).send('Error loading data');
   } finally {
     // Release the connection when done
-    connection.close();
+    await connection.end();
   }
 });
 
