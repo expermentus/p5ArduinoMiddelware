@@ -19,9 +19,7 @@ class Compiler:
         else:
             return None
 
-
     def compile(self):
-        Compiler.config(self)
         # runs command: arduino-cli compile -b (fqbn) -u (sketch_path) -p (COM)
         # variables:    'cli_path' /arduino-cli.exe compile -b 'fqbn' -u 'sketch_path' -p 'COM_PORT'
         command = f"'{self.cli_path}' compile -b '{self.get_fqbn()}' -u '{self.sketch_path}' -p '{self.COM_PORT}'"
@@ -38,7 +36,6 @@ class Compiler:
 
 # this function is static
 def server_compile(cli_path, sketch_path, board, dump_path):
-
     # create a temporary compiler instance:
     temp_compiler = Compiler(cli_path=os.path.abspath(cli_path),
                              sketch_path=os.path.abspath(sketch_path),
