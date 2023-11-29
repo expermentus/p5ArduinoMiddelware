@@ -10,7 +10,7 @@ def send_json(arduinos):
     json_data_to_send = []
 
     for arduino in arduinos:
-        json_data_to_send.append({"arduino": [arduino[0], "discovered", arduino[1].serial_number]})
+        json_data_to_send.append({"arduino": [[arduino[0][0], "discovered", arduino[1].serial_number]]})
 
     try:
         # Convert the dictionary to JSON
@@ -59,4 +59,6 @@ def receive_json():
 if __name__ == "__main__":
     arduinos, noarduinos = check_ports()
     for arduino in arduinos:
+        print(arduino[0])
+        print(arduino[0][0])
         print('serial number: ', arduino[1].serial_number)
