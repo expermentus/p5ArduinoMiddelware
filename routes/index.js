@@ -6,14 +6,20 @@ const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const connectionManager = require("../connectionManager");
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
 });
 
 router.get('/update', function(req, res, next) {
-  res.render('updateDeviceSoftware', { title: 'Arduino middelware' });
+  const urlParams = new URLSearchParams(req.url.split('?')[1]);
+  console.log(urlParams)
+  const topic = urlParams.get('topic');
+  console.log(topic);
+  res.render('updateDeviceSoftware', { title: 'Arduino middleware', device_topic: topic });
 });
+
 
 router.get('/deviceSetup', function(req, res, next) {
   res.render('deviceSetup', { title: 'Device Setup Page', status: 'Discovered'});
