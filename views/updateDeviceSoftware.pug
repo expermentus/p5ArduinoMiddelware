@@ -11,22 +11,8 @@ block content
                 form(method='POST', action='/updateDeviceSoftware')
                     textarea(placeholder='Write your code here...', id="contentTextarea", class='cartoon-container', style="width: 1000px")
                 div(class='horizontal-container')
-                    for item in arduinos
-                        if item[1] === "configured"
-                            button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
-                                span.text #{item[0]} <br> Status: #{item[1]}
-
-                    //.dropdown
-                        button.button(onclick="toggleDropdown()")
-                            span.text Chose device
-                            #myDropdown.dropdown-content
-                                a.button(href="#") Option 1
-                                a.button(href="#") Option 2
-                                a.button(href="#") Option 3
                     button.button(onclick='updateCode()', )
-                        span.text Update
-                div(class='horizontal-container')
-                    input(type= 'text', placeholder='PLACEHOLDE MQTT TOPIC', id="TOPIC", class='cartoon-container', style='width: 100px')
+                        span.text Update #{device_topic}
                 div(class='horizontal-container')
                     input(type= 'text', placeholder='WiFi SSID', id="SSID", class='cartoon-container', style='width: 100px')
                 div(class='horizontal-container')
@@ -53,7 +39,7 @@ block content
         function updateCode() {
             // Get the value from the textarea
             var codeContent = document.getElementById("contentTextarea").value;
-            var topic = document.getElementById("TOPIC").value;
+            var topic = device.topic
             var ssid = document.getElementById("SSID").value;
             var password = document.getElementById("PASSWORD").value;
             // Define the data to be sent in the POST request

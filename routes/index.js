@@ -29,7 +29,7 @@ router.get('/deviceSetup', function(req, res, next) {
 router.post('/deviceSetup', async(req, res) => {
   const connection = connectionManager.getConnection();
   const query = 'SELECT name FROM devices';
-  const { name, ssid, ssid_pass } = req.body;
+  const { name, ssid, ssid_pass, serial} = req.body;
   const status = "configured"
   var countSameName = 0;
   var topic;
@@ -50,8 +50,8 @@ router.post('/deviceSetup', async(req, res) => {
     topic = topic.replace(/[^a-zA-Z0-9]/g, '');
 
     // Insert data into the database
-    const sql = 'INSERT INTO devices (name, ssid, topic, status) VALUES (?, ?, ?, ?)';
-    const values = [name, ssid, topic, status];
+    const sql = 'INSERT INTO devices (name, ssid, topic, serial, status) VALUES (?, ?, ?, ?, ?)';
+    const values = [name, ssid, topic, serial, status];
 
     getConnection().query(sql, values, (err, result) => {
       if (err) {
