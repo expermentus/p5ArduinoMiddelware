@@ -11,7 +11,7 @@ block content
                 form(method='POST', action='/updateDeviceSoftware')
                     textarea(placeholder='Write your code here...', id="contentTextarea", class='cartoon-container', style="width: 1000px")
                 div(class='horizontal-container')
-                    button.button(onclick='updateCode()', )
+                    button.button(onclick=`updateCode(${device_topic})`, )
                         span.text Update #{device_topic}
                 div(class='horizontal-container')
                     input(type= 'text', placeholder='WiFi SSID', id="SSID", class='cartoon-container', style='width: 100px')
@@ -36,10 +36,9 @@ block content
 
     script.
 
-        function updateCode() {
+        function updateCode(topic) {
             // Get the value from the textarea
             var codeContent = document.getElementById("contentTextarea").value;
-            var topic = device_topic
             var ssid = document.getElementById("SSID").value;
             var password = document.getElementById("PASSWORD").value;
             // Define the data to be sent in the POST request
