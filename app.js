@@ -17,7 +17,7 @@ global.arduinos = [];
 global.insertedData = null;
 
 var app = express();
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')))
 app.use(bodyParser.text());
 
 

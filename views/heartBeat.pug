@@ -11,7 +11,7 @@ block content
             div(class='cartoon-container')
                 p
                     b(style="font-size: 18px;") #{item.name}
-                        button.button(onclick='redirectTo("/update", "#{item.topic}")')
+                        button.button(onclick=`redirectTo('/update?topic=${item.topic}')`)
                             span.text Reconfigure
 
                 div(class='cartoon-container left')
@@ -35,7 +35,6 @@ block content
             location.reload(); // Reload the page
         }
 
-        function redirectTo(url, topic) {
-            console.log('Redirecting to:', url + (topic ? '?topic=' + encodeURIComponent(topic) : ''));
-            window.location.href = url + (topic ? '?topic=' + encodeURIComponent(topic) : '');
+        function redirectTo(url) {
+            window.location.href = url;
         }
