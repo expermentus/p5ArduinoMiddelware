@@ -41,7 +41,7 @@ var options = {
 global.mqttClient = mqtt.connect('mqtt://13.53.38.141', options);
 
 // Define the MQTT broker and port
-const topics = ['sensor']; // Topics to subscribe to
+const topics = ['/sensor/#']; // Topics to subscribe to
 
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
