@@ -27,10 +27,10 @@ const mqtt = require('mqtt');
 
 var options = {
   port: 1884,
-  host: 'test.mosquitto.org',
+  host: '13.53.38.141',
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-  username: 'rw',
-  password: 'readwrite',
+  username: 'mqtt',
+  password: 'idiot',
   keepalive: 60,
   reconnectPeriod: 1000,
   protocolId: 'MQIsdp',
@@ -39,7 +39,7 @@ var options = {
   encoding: 'utf8'
 };
 // Create an MQTT client
-global.mqttClient = mqtt.connect('mqtt://test.mosquitto.org', options);
+global.mqttClient = mqtt.connect('mqtt://13.53.38.141', options);
 
 // Define the MQTT broker and port
 const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to

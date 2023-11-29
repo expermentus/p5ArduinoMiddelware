@@ -3,13 +3,6 @@ var router = express.Router();
 const mqtt = require('mqtt');
 const connectionManager = require('../connectionManager');
 
-// Define the MQTT broker and port
-const brokerAddress = 'mqtt://test.mosquitto.org';
-const topic = 'real_unique_topic';
-
-// Create an MQTT client
-const client = mqtt.connect(brokerAddress);
-
 
 router.get('/', function(req, res, next) {
   const connection = connectionManager.getConnection();
