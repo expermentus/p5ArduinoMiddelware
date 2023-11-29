@@ -28,16 +28,9 @@ router.get('/', async function(req, res, next) {
 });
 
 // Function to execute a query and return a promise
-async function queryPromise(connection, query) {
-  return new Promise((resolve, reject) => {
-    connection.query(query, (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+// Function to execute a query and return a promise
+function queryPromise(connection, query) {
+  return connection.query(query);
 }
 
 
