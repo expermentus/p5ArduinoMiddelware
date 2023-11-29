@@ -19,7 +19,7 @@ block content
                         | Show password
                         input(type="checkbox", onclick=`hideViewPassword()`)
                         br
-                        input(type="string", hidden=true, name="serial", id="serial", class="input", required=false, default=item[2])
+                        input(type="string", hidden=true, name="serial", id="serial", class="input", required=false, value=item[2])
                         button.button-confirm(onclick=`setStatus("${index}")`) Create
             - index = index + 1
 
