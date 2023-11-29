@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('p5arduinomiddelware:server');
 var http = require('http');
+const express = require("express");
 
 /**
  * Get port from environment and store in Express.
@@ -14,6 +15,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '80');
 app.set('port', port);
+app.use(express.urlencoded({ extended: true }));
 
 /**
  * Create HTTP server.

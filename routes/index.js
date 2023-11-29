@@ -6,14 +6,20 @@ const env = require('dotenv');
 const {getConnection} = require("../connectionManager");
 const connectionManager = require("../connectionManager");
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Arduino middelware' });
 });
 
 router.get('/update', function(req, res, next) {
-  res.render('updateDeviceSoftware', { title: 'Arduino middelware' });
+  const urlParams = new URLSearchParams(req.url.split('?')[1]);
+  console.log(urlParams)
+  const topic = urlParams.get('topic');
+  console.log(topic);
+  res.render('updateDeviceSoftware', { title: 'Arduino middleware', device_topic: topic });
 });
+
 
 router.get('/deviceSetup', function(req, res, next) {
   res.render('deviceSetup', { title: 'Device Setup Page', status: 'Discovered'});
@@ -23,7 +29,7 @@ router.get('/deviceSetup', function(req, res, next) {
 router.post('/deviceSetup', async(req, res) => {
   const connection = connectionManager.getConnection();
   const query = 'SELECT name FROM devices';
-  const { name, ssid, ssid_pass } = req.body;
+  const { name, ssid, ssid_pass, serial} = req.body;
   const status = "configured"
   var countSameName = 0;
   var topic;
@@ -44,8 +50,8 @@ router.post('/deviceSetup', async(req, res) => {
     topic = topic.replace(/[^a-zA-Z0-9]/g, '');
 
     // Insert data into the database
-    const sql = 'INSERT INTO devices (name, ssid, topic, status) VALUES (?, ?, ?, ?)';
-    const values = [name, ssid, topic, status];
+    const sql = 'INSERT INTO devices (name, ssid, topic, serial, status) VALUES (?, ?, ?, ?, ?)';
+    const values = [name, ssid, topic, serial, status];
 
     getConnection().query(sql, values, (err, result) => {
       if (err) {
@@ -65,52 +71,5 @@ router.post('/deviceSetup', async(req, res) => {
     });
   });
 });
-
-
-//Post code to database - maybe to somewhere else??
-/*router.post('/updateDeviceSoftware', async(req, res) => {
-  const connection = connectionManager.getConnection();
-  const query = 'SELECT name FROM devices';
-  const { name, ssid, ssid_pass } = req.body;
-  var countSameName = 0;
-  var topic;
-
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Error loading devices:', error);
-      res.status(500).send('Error loading devices');
-      return;
-    }
-
-    for (let i = 0; i < results.length; i++) {
-      if (name === results[i].name) {
-        countSameName += 1;
-      }
-    }
-    topic = name + countSameName;
-    topic = topic.replace(/[^a-zA-Z0-9]/g, '');
-
-    // Insert data into the database
-    const sql = 'INSERT INTO devices (name, ssid, ssid_pass, topic) VALUES (?, ?, ?, ?)';
-    const values = [name, ssid, ssid_pass, topic];
-
-    getConnection().query(sql, values, (err, result) => {
-      if (err) {
-        console.error('Error inserting data into the database:', err);
-        res.status(500).json({ message: 'Error inserting data into the database' });
-        return;
-      }
-
-      console.log('Data inserted into the database');
-      insertedData = {
-        choice: '1',
-        ssid: ssid,
-        password: ssid_pass,
-        stopic: topic,
-      };
-      res.render('deviceSetup', { title: 'Device Setup Page', alert: 'data stored succesfully' });
-    });
-  });
-});*/
 
 module.exports = router;

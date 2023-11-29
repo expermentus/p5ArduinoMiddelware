@@ -4,7 +4,6 @@ block content
     div(class='text-center center')
         meta(charset='UTF-8')
         meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet' href='styles.css')
         title Code Editor
 
         div(class='horizontal-container')
@@ -12,22 +11,8 @@ block content
                 form(method='POST', action='/updateDeviceSoftware')
                     textarea(placeholder='Write your code here...', id="contentTextarea", class='cartoon-container', style="width: 1000px")
                 div(class='horizontal-container')
-                    for item in arduinos
-                        if item[1] === "configured"
-                            button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
-                                span.text #{item[0]} <br> Status: #{item[1]}
-
-                    //.dropdown
-                        button.button(onclick="toggleDropdown()")
-                            span.text Chose device
-                            #myDropdown.dropdown-content
-                                a.button(href="#") Option 1
-                                a.button(href="#") Option 2
-                                a.button(href="#") Option 3
                     button.button(onclick='updateCode()', )
-                        span.text Update
-                div(class='horizontal-container')
-                    input(type= 'text', placeholder='PLACEHOLDE MQTT TOPIC', id="TOPIC", class='cartoon-container', style='width: 100px')
+                        span.text Update #{device_topic}
                 div(class='horizontal-container')
                     input(type= 'text', placeholder='WiFi SSID', id="SSID", class='cartoon-container', style='width: 100px')
                 div(class='horizontal-container')
@@ -54,7 +39,7 @@ block content
         function updateCode() {
             // Get the value from the textarea
             var codeContent = document.getElementById("contentTextarea").value;
-            var topic = document.getElementById("TOPIC").value;
+            var topic = device.topic
             var ssid = document.getElementById("SSID").value;
             var password = document.getElementById("PASSWORD").value;
             // Define the data to be sent in the POST request
@@ -144,7 +129,11 @@ block content
           #include <PubSubClient.h>
           #include "arduino_secrets.h"
 
+          //set interval for sending messages (milliseconds)
+          const long interval = 3000;
+          unsigned long previousMillis = 0;
 
+          int count = 0;
           const short VERSION = 1;
 
           const char MY_SSID[] = SECRET_SSID; // Loaded from arduino_secrets.h
@@ -290,6 +279,23 @@ block content
 
           void loop() {
             mqttClient.loop();
+            float temperature = carrier.Env.readTemperature();
+                          float humidity = carrier.Env.readHumidity();
+
+                          // record random value from A0, A1, and A2
+                          float Rvalue = temperature;
+                          float Rvalue2 = humidity;
+
+                          // Concatenate otatopic with temperature and humidity topics
+                          String temperatureTopic = String(otatopic) + "/temperature_topic";
+                          String humidityTopic = String(otatopic) + "/humidity_topic";
+                          Serial.print(temperatureTopic);
+
+                          // Publish temperature and humidity to MQTT topics
+                          Serial.println(mqttClient.publish(temperatureTopic.c_str(), String(Rvalue).c_str()));
+                          mqttClient.publish(humidityTopic.c_str(), String(Rvalue2).c_str());
+                          delay(1000);
+              }
           }
 
           void callback(char* topic, byte* payload, unsigned int length) {
@@ -480,8 +486,23 @@ block content
                                         }
                                       }
                                     }
+                                    float temperature = carrier.Env.readTemperature();
+                                    float humidity = carrier.Env.readHumidity();
 
-                                    // add your normal loop code below ...
+                                    // record random value from A0, A1, and A2
+                                    float Rvalue = temperature;
+                                    float Rvalue2 = humidity;
+
+                                     // Concatenate otatopic with temperature and humidity topics
+                                     String temperatureTopic = String(otatopic) + "/temperature_topic";
+                                     String humidityTopic = String(otatopic) + "/humidity_topic";
+                                     Serial.print(temperatureTopic);
+
+                                     // Publish temperature and humidity to MQTT topics
+                                     Serial.println(mqttClient.publish(temperatureTopic.c_str(), String(Rvalue).c_str()));
+                                     mqttClient.publish(humidityTopic.c_str(), String(Rvalue2).c_str());
+                                     delay(1000);
+
                                   }
                                 `;
         }

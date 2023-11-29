@@ -13,12 +13,13 @@ var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
 
-global.arduinos = [["testing solo", "Discovered"],["testing solo 2", "configured"]];
+global.arduinos = [];
 global.insertedData = null;
 
 var app = express();
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(bodyParser.text());
+
 
 const mqtt = require('mqtt');
 
