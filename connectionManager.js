@@ -20,6 +20,6 @@ const pool = mysql.createPool({
 
 module.exports = {
     getConnection: function () {
-        return pool.promise();
+        return pool;
     },
 };
