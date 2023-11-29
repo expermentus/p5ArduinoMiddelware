@@ -7,6 +7,7 @@ var logger = require('morgan');
 var mysql = require('mysql2');
 var env = require('dotenv');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +20,7 @@ global.insertedData = null;
 var app = express();
 app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')))
 app.use(bodyParser.text());
+app.use(morgan('combined'));
 
 
 const mqtt = require('mqtt');
