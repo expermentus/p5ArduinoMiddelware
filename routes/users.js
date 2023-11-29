@@ -21,9 +21,6 @@ router.get('/', async function(req, res, next) {
   } catch (error) {
     console.error('Error loading data:', error);
     res.status(500).send('Error loading data');
-  } finally {
-    // Release the connection when done
-    await connection.end();
   }
 });
 
