@@ -5,28 +5,30 @@ block content
         h1 List of discovered devices
     - var index = 0;
     each item in arduinos
-        div.form-container(style="display: none;" id=item[0])
-            div(class='text-center center')
-                form.form(method='POST' action='/deviceSetup')
-                    div(class='center')
-                        .title
-                            | #{item[0]}
+        if item[1] === "Discovered"
+            div.form-container(style="display: none;" id=item[0])
+                div(class='text-center center')
+                    form.form(method='POST' action='/deviceSetup')
+                        div(class='center')
+                            .title
+                                | #{item[0]}
+                                br
+                                span Insert the information about the device below
+                            input(type="string", placeholder="Device name", name="name", class="input", required=true)
+                            input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
+                            input(type="password", placeholder="Wifi password", name="ssid_pass", id="password" class="input", required=true)
+                            | Show password
+                            input(type="checkbox", onclick=`hideViewPassword()`)
                             br
-                            span Insert the information about the device below
-                        input(type="string", placeholder="Device name", name="name", class="input", required=true)
-                        input(type="string", placeholder="Wifi name", name="ssid", class="input", required=true)
-                        input(type="password", placeholder="Wifi password", name="ssid_pass", id="password" class="input", required=true)
-                        | Show password
-                        input(type="checkbox", onclick=`hideViewPassword()`)
-                        br
-                        input(type="string", hidden=true, name="serial", id="serial", class="input", required=false, value=item[2])
-                        button.button-confirm(onclick=`setStatus("${index}")`) Create
-            - index = index + 1
+                            input(type="string", hidden=true, name="serial", id="serial", class="input", required=false, value=item[2])
+                            button.button-confirm(onclick=`setStatus("${index}")`) Create
+                - index = index + 1
 
     div(class="row center")
         each item in arduinos
-            button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
-                span.text #{item[0]} <br> Status: #{item[1]}
+            if item[1] === "Discovered"
+                button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
+                    span.text #{item[0]} <br> Status: #{item[1]}
 
     script.
         if(alert === 'data stored succesfully'){
