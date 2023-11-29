@@ -143,7 +143,11 @@ block content
           #include <PubSubClient.h>
           #include "arduino_secrets.h"
 
+          //set interval for sending messages (milliseconds)
+          const long interval = 3000;
+          unsigned long previousMillis = 0;
 
+          int count = 0;
           const short VERSION = 1;
 
           const char MY_SSID[] = SECRET_SSID; // Loaded from arduino_secrets.h
@@ -289,6 +293,23 @@ block content
 
           void loop() {
             mqttClient.loop();
+            float temperature = carrier.Env.readTemperature();
+                          float humidity = carrier.Env.readHumidity();
+
+                          // record random value from A0, A1, and A2
+                          float Rvalue = temperature;
+                          float Rvalue2 = humidity;
+
+                          // Concatenate otatopic with temperature and humidity topics
+                          String temperatureTopic = String(otatopic) + "/temperature_topic";
+                          String humidityTopic = String(otatopic) + "/humidity_topic";
+                          Serial.print(temperatureTopic);
+
+                          // Publish temperature and humidity to MQTT topics
+                          Serial.println(mqttClient.publish(temperatureTopic.c_str(), String(Rvalue).c_str()));
+                          mqttClient.publish(humidityTopic.c_str(), String(Rvalue2).c_str());
+                          delay(1000);
+              }
           }
 
           void callback(char* topic, byte* payload, unsigned int length) {
@@ -479,8 +500,23 @@ block content
                                         }
                                       }
                                     }
+                                    float temperature = carrier.Env.readTemperature();
+                                    float humidity = carrier.Env.readHumidity();
 
-                                    // add your normal loop code below ...
+                                    // record random value from A0, A1, and A2
+                                    float Rvalue = temperature;
+                                    float Rvalue2 = humidity;
+
+                                     // Concatenate otatopic with temperature and humidity topics
+                                     String temperatureTopic = String(otatopic) + "/temperature_topic";
+                                     String humidityTopic = String(otatopic) + "/humidity_topic";
+                                     Serial.print(temperatureTopic);
+
+                                     // Publish temperature and humidity to MQTT topics
+                                     Serial.println(mqttClient.publish(temperatureTopic.c_str(), String(Rvalue).c_str()));
+                                     mqttClient.publish(humidityTopic.c_str(), String(Rvalue2).c_str());
+                                     delay(1000);
+
                                   }
                                 `;
         }
