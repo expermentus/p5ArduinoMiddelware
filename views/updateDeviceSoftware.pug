@@ -294,8 +294,8 @@ block content
                           Serial.println(mqttClient.publish(temperatureTopic.c_str(), String(Rvalue).c_str()));
                           mqttClient.publish(humidityTopic.c_str(), String(Rvalue2).c_str());
                           delay(1000);
-              }
           }
+
 
           void callback(char* topic, byte* payload, unsigned int length) {
             // we received a message, print out the topic and contents
