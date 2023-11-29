@@ -26,7 +26,7 @@ block content
 
     div(class="row center")
         each item in arduinos
-            if item[1] === "Discovered"
+            if item[1] === "discovered"
                 button.button(onclick=`toggleFormVisibility("${item[0]}")`, style='height: auto; width: auto; padding: 20px;')
                     span.text #{item[0]} <br> Status: #{item[1]}
 
