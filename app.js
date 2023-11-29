@@ -53,7 +53,7 @@ global.listMes2 = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 const pool = connectionManager.getConnection();
 
 // Callback function to handle incoming messages
-mqttClient.on('message', async (topic, message) => {
+mqttClient.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
 
   // Extract device name from topic
@@ -68,16 +68,23 @@ mqttClient.on('message', async (topic, message) => {
 
   // Query the device_id from the devices table using the deviceName
   const selectDeviceQuery = 'SELECT id FROM devices WHERE topic = ?';
-  const [deviceRows] = await pool.execute(selectDeviceQuery, [deviceName]);
+  pool.query(selectDeviceQuery, [deviceName], (error, deviceRows) => {
+    if (error) {
+      console.error('Error querying device:', error);
+      return;
+    }
 
-  if (deviceRows.length === 0) {
-    console.error('Device not found:', deviceName);
-    return;
-  }
-  const deviceId = deviceRows[0].id;
-  const reading = parseFloat(message.toString()); // Convert the message to a number
-  // Insert data into sensor_data table
-  await insertSensorData(deviceId, dataName, reading);
+    if (deviceRows.length === 0) {
+      console.error('Device not found:', deviceName);
+      return;
+    }
+
+    const deviceId = deviceRows[0].id;
+    const reading = parseFloat(message.toString()); // Convert the message to a number
+
+    // Insert data into sensor_data table
+    insertSensorData(deviceId, dataName, reading);
+  });
 });
 
 // Connect to the MQTT broker
@@ -148,18 +155,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 // Function to insert data into sensor_data table
-async function insertSensorData(deviceId, dataName, reading) {
+function insertSensorData(deviceId, dataName, reading) {
   const query = 'INSERT INTO sensor_data (device_id, data_name, reading) VALUES (?, ?, ?)';
   const values = [deviceId, dataName, reading];
 
-  try {
-    const [result] = await pool.execute(query, values);
-    console.log('Inserted into sensor_data:', result.insertId);
-  } catch (error) {
-    console.error('Error inserting into sensor_data:', error);
-  }
+  pool.query(query, values, (error, result) => {
+    if (error) {
+      console.error('Error inserting into sensor_data:', error);
+    } else {
+      console.log('Inserted into sensor_data:', result.insertId);
+    }
+  });
 }
-
 module.exports = app;
