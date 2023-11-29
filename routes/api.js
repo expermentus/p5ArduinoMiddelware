@@ -136,10 +136,10 @@ async function createSecretsFile(topic, secretSSID, secretPass) {
     const fileContent = `#define SECRET_SSID "${secretSSID}" // Your network SSID (name)
 #define SECRET_PASS "${secretPass}" // Your network password
 #define SECRET_STOPIC "${topic}" // Your network password
-#define SECRET_BROKER "test.mosquitto.org" 
+#define SECRET_BROKER "13.53.38.141" 
 #define SECRET_PORT 1884 
-#define SECRET_UN "rw" 
-#define SECRET_PW "readwrite" `
+#define SECRET_UN "mqtt" 
+#define SECRET_PW "idiot" `
 
     const filePath = path.join(__dirname, '../sketch_files/arduino_secrets.h');
 
