@@ -30,9 +30,28 @@ router.post('/deviceSetup', async(req, res) => {
   const connection = connectionManager.getConnection();
   const query = 'SELECT name FROM devices';
   const { name, ssid, ssid_pass, serial} = req.body;
-  const status = "configured"
+  const status = "Configured"
   var countSameName = 0;
   var topic;
+
+  connection.query(query, (error, results)=> {
+    if (error) {
+      console.error('Error loading devices:', error);
+      res.status(500).send('Error loading devices');
+      return;
+    }
+
+    const sql = "UPDATE devices SET status = 'outdated' WHERE serial = '$serial'";
+
+    getConnection().query(sql, (err, result) => {
+      if (err) {
+        console.error('Error inserting data into the database:', err);
+        res.status(500).json({message: 'Error inserting data into the database'});
+        return;
+      }
+      console.log('Data inserted into the database');
+    })
+  })
 
   connection.query(query, (error, results) => {
     if (error) {

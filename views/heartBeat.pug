@@ -8,27 +8,28 @@ block content
     ul
         - var knownData = ""
         each item in devices
-            div(class='cartoon-container')
-                p
-                    b(style="font-size: 18px;") #{item.name}
-                        button.button(onclick=`redirectTo('/update?topic=${item.topic}')`)
-                            span.text Reconfigure
+            if item.status === "Configured"
+                div(class='cartoon-container')
+                    p
+                        b(style="font-size: 18px;") #{item.name}
+                            button.button(onclick=`redirectTo('/update?topic=${item.topic}')`)
+                                span.text Reconfigure
 
-                div(class='cartoon-container left')
-                    div(class='container-wrapper')
-                        each data in sensorData
-                            if item.name ==data.device_name
-                                if data.data_name !== knownData
-                                    - knownData = data.data_name
-                                    div(class='container-left')
-                                        div(id='list-container-left', class='list-element')
-                                            ul
-                                                li= data.data_name + ': ' + data.reading
-                                else
-                                    div(class='container-right')
-                                        div(id='list-container-right', class='list-element')
-                                            ul
-                                                li= data.data_name + ': ' + data.reading
+                    div(class='cartoon-container left')
+                        div(class='container-wrapper')
+                            each data in sensorData
+                                if item.name ==data.device_name
+                                    if data.data_name !== knownData
+                                        - knownData = data.data_name
+                                        div(class='container-left')
+                                            div(id='list-container-left', class='list-element')
+                                                ul
+                                                    li= data.data_name + ': ' + data.reading
+                                    else
+                                        div(class='container-right')
+                                            div(id='list-container-right', class='list-element')
+                                                ul
+                                                    li= data.data_name + ': ' + data.reading
 
     script.
         function refreshPage() {
