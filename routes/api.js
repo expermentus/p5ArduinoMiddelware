@@ -104,12 +104,12 @@ async function createBin(codeContent) {
                 console.log('File written successfully');
 
                 // Run the Python script to create the binary file
-                const cliPath = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'arduino-cli_0.34.2_Windows_64bit', 'arduino-cli.exe');
+                const cliPath = '/home/ubuntu/bin/arduino-cli';
                 const dumpPath = path.join(scriptDir, 'binfiles');
                 const pythonScript = path.join(scriptDir, 'arduino_code', 'Auto-Detect', 'board_detection', 'server_compile.py');
                 const arguments = [cliPath, sketchFilePath, 'Arduino MKR WiFi 1010', dumpPath];
 
-                const pythonProcess = spawn('python', [pythonScript, ...arguments]);
+                const pythonProcess = spawn('python3', [pythonScript, ...arguments]);
 
                 pythonProcess.stdout.on('data', (data) => {
                     console.log(`Python Output: ${data}`);
@@ -136,12 +136,12 @@ async function createSecretsFile(topic, secretSSID, secretPass) {
     const fileContent = `#define SECRET_SSID "${secretSSID}" // Your network SSID (name)
 #define SECRET_PASS "${secretPass}" // Your network password
 #define SECRET_STOPIC "${topic}" // Your network password
-#define SECRET_BROKER "test.mosquitto.org" 
+#define SECRET_BROKER "13.53.38.141" 
 #define SECRET_PORT 1884 
-#define SECRET_UN "rw" 
-#define SECRET_PW "readwrite" `
+#define SECRET_UN "mqtt" 
+#define SECRET_PW "idiot" `
 
-    const filePath = path.join(__dirname, '../sketch_files/arduino_Secrets.h');
+    const filePath = path.join(__dirname, '../sketch_files/arduino_secrets.h');
 
     fs.writeFile(filePath, fileContent, (err) => {
         if (err) {

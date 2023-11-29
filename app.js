@@ -7,6 +7,7 @@ var logger = require('morgan');
 var mysql = require('mysql2');
 var env = require('dotenv');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,16 +20,16 @@ global.insertedData = null;
 var app = express();
 app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')))
 app.use(bodyParser.text());
-
+app.use(morgan('combined'));
 
 const mqtt = require('mqtt');
 
 var options = {
   port: 1884,
-  host: 'test.mosquitto.org',
+  host: '13.53.38.141',
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-  username: 'rw',
-  password: 'readwrite',
+  username: 'mqtt',
+  password: 'idiot',
   keepalive: 60,
   reconnectPeriod: 1000,
   protocolId: 'MQIsdp',
@@ -37,12 +38,10 @@ var options = {
   encoding: 'utf8'
 };
 // Create an MQTT client
-global.mqttClient = mqtt.connect('mqtt://test.mosquitto.org', options);
+global.mqttClient = mqtt.connect('mqtt://13.53.38.141', options);
 
 // Define the MQTT broker and port
-const topics = ['middelware_temperature_topic', 'middelware_humidity_topic']; // Topics to subscribe to
-
-
+const topics = ['/sensor/#']; // Topics to subscribe to
 
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
@@ -50,12 +49,10 @@ global.mes2 = "Not defined yet";
 global.listMes = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 global.listMes2 = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 
-
-
 // Callback function to handle incoming messages
 mqttClient.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
-  if (topic.toString() === 'middelware_temperature_topic'){
+  if (topic.toString() === 'sensor'){
     global.mes =  message.toString();
     listMes.push(mes)
     if (listMes.length > 10) {
@@ -68,9 +65,7 @@ mqttClient.on('message', (topic, message) => {
       listMes2.shift(); // Remove the oldest item
     }
   }
-
 });
-
 
 // Connect to the MQTT broker
 mqttClient.on('connect', () => {
