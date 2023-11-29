@@ -286,8 +286,8 @@ block content
                           float Rvalue2 = humidity;
 
                           // Concatenate otatopic with temperature and humidity topics
-                          String temperatureTopic = String(otatopic) + "/temperature_topic";
-                          String humidityTopic = String(otatopic) + "/humidity_topic";
+                          String temperatureTopic = "/sensor" + String(otatopic) + "/temperature_topic";
+                          String humidityTopic = "/sensor" + String(otatopic) + "/humidity_topic";
                           Serial.print(temperatureTopic);
 
                           // Publish temperature and humidity to MQTT topics
