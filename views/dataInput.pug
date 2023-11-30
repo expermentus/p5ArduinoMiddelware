@@ -23,11 +23,10 @@ block content
                                         each input in switchData
                                             if input.device_id === item.id
                                                 if input.data_type === "text"
-                                                    form(method='POST' action='/updateStatus')
+                                                    form(method='POST', action='/updateStatus')
                                                         input(type="string", hidden=true, name="switchName", id="switchName", value=`${input.switch_name}`)
                                                         input(type="textfield", value=`${input.reading}`, name="textValue", id="reading" style=`height: 40px; margin-right: 10px`)
-                                                        input(type="string", hidden=true, name="deviceName", id="deviceName", value=`${item.topic}`)
-                                                        input(type="string", hidden=true, name="dataType", id="dataType", value=`${input.data_type}`)
+                                                        input(type="string", hidden=true, name="deviceName", id="deviceName", value=`${item.device_name}`)
                                                         button.button-confirm() click here
                                                 else if input.data_type === "boolean"
                                                     div(class='container')
@@ -73,4 +72,3 @@ block content
         function redirectTo(url) {
             window.location.href = url;
         }
-
