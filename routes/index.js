@@ -85,6 +85,7 @@ router.post('/deviceSetup', async(req, res) => {
         ssid: ssid,
         password: ssid_pass,
         stopic: topic,
+        serial: serial,
       };
       res.render('deviceSetup', { title: 'Device Setup Page', alert: 'data stored succesfully' });
     });

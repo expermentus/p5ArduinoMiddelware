@@ -42,7 +42,7 @@ var options = {
 global.mqttClient = mqtt.connect('mqtt://13.53.38.141', options);
 
 // Define the MQTT broker and port
-const topics = ['/sensor/#']; // Topics to subscribe to
+const topics = ['/sensor/#', '/switch/#'] // Topics to subscribe to
 
 global.mes = "Not defined yet";
 global.mes2 = "Not defined yet";
@@ -58,13 +58,11 @@ mqttClient.on('message', (topic, message) => {
 
   // Extract device name from topic
   const topicParts = topic.split('/');
-  if (topicParts.length < 3 || topicParts[1] !== 'sensor') {
-    console.error('Invalid topic format');
-    return;
-  }
+
 
   const deviceName = topicParts[2];
   const dataName = topicParts[3]; // Assuming the data type is the last part of the topic
+
 
   // Query the device_id from the devices table using the deviceName
   const selectDeviceQuery = 'SELECT id FROM devices WHERE topic = ?';
@@ -79,11 +77,20 @@ mqttClient.on('message', (topic, message) => {
       return;
     }
 
-    const deviceId = deviceRows[0].id;
-    const reading = parseFloat(message.toString()); // Convert the message to a number
+    if (topicParts[1] === 'sensor') {
+      let deviceId = deviceRows[0].id;
+      let reading = parseFloat(message.toString()); // Convert the message to a number
+      insertSensorData(deviceId, dataName, reading);
+    } else if (topicParts[1] === 'switch') {
+      let deviceId = deviceRows[0].id;
+      let reading = message.toString().split(','); // Convert the message to a number
+      insertSwitchData(deviceId, dataName, reading[0], reading[1]);
+    }
+
+
 
     // Insert data into sensor_data table
-    insertSensorData(deviceId, dataName, reading);
+
   });
 });
 
@@ -165,6 +172,19 @@ function insertSensorData(deviceId, dataName, reading) {
       console.error('Error inserting into sensor_data:', error);
     } else {
       console.log('Inserted into sensor_data:', result.insertId);
+    }
+  });
+}
+
+function insertSwitchData(deviceId, dataName, reading, data_type) {
+  const query = 'INSERT INTO switch_data (device_id, switch_name, reading, data_type) VALUES (?, ?, ?, ?)';
+  const values = [deviceId, dataName, reading, data_type];
+
+  pool.query(query, values, (error, result) => {
+    if (error) {
+      console.error('Error inserting into switch_data:', error);
+    } else {
+      console.log('Inserted into switch_data:', result.insertId);
     }
   });
 }
