@@ -41,9 +41,9 @@ router.post('/deviceSetup', async(req, res) => {
       return;
     }
 
-    const sql = "UPDATE devices SET status = 'outdated' WHERE serial = '$serial'";
+    const updatesql = `UPDATE devices SET status = 'outdated' WHERE serial = '${serial}'`;
 
-    getConnection().query(sql, (err, result) => {
+    getConnection().query(updatesql, (err, result) => {
       if (err) {
         console.error('Error inserting data into the database:', err);
         res.status(500).json({message: 'Error inserting data into the database'});
