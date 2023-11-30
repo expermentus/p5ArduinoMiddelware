@@ -75,7 +75,7 @@ router.post('/upload', async function (req, res, next) {
         console.log("File uploaded successfully:", response.requestId);
         console.log(newFilePath.substring(1));
         mqttClient.publish(topic, newFilePath.substring(1));
-        res.send("File uploaded successfully");
+        res.alert("File uploaded successfully");
 
 
 
