@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
     queryPromise(connection, switchQuery)
   ])
       .then(([devicesResults, sensorDataResults, switchResults]) => {
-        res.render('heartBeat', { devices: devicesResults, sensorData: sensorDataResults, switchData: switchResults });
+        res.render('dataInput', { devices: devicesResults, sensorData: sensorDataResults, switchData: switchResults });
       })
       .catch(error => {
         console.error('Error loading data:', error);
