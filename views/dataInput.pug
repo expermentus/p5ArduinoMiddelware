@@ -26,7 +26,7 @@ block content
                                                     form(method='POST', action='/updateStatus')
                                                         input(type="string", hidden=true, name="switchName", id="switchName", value=`${input.switch_name}`)
                                                         input(type="textfield", value=`${input.reading}`, name="textValue", id="reading" style=`height: 40px; margin-right: 10px`)
-                                                        input(type="string", hidden=true, name="deviceName", id="deviceName", value=`${item.device_name}`)
+                                                        input(type="string", hidden=true, name="deviceName", id="deviceName", value=`${item.topic}`)
                                                         button.button-confirm() click here
                                                 else if input.data_type === "boolean"
                                                     div(class='container')
