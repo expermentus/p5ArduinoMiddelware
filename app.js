@@ -82,8 +82,10 @@ mqttClient.on('message', (topic, message) => {
       let reading = parseFloat(message.toString()); // Convert the message to a number
       insertSensorData(deviceId, dataName, reading);
     } else if (topicParts[1] === 'switch') {
+      if(message.toString().split(',')[1] === undefined){return}
       let deviceId = deviceRows[0].id;
       let reading = message.toString().split(','); // Convert the message to a number
+
       insertSwitchData(deviceId, dataName, reading[0].trim(), reading[1].trim());
     }
 

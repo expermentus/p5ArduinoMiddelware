@@ -26,6 +26,13 @@ router.get('/deviceSetup', function(req, res, next) {
   console.log(arduinos)
 });
 
+router.post('/updateStatus', async (req, res) => {
+  const { switchName, textValue, deviceName} = req.body;
+  const topic = "/switch/" + deviceName + "/" + switchName;
+  mqttClient.publish(topic, textValue);
+  res.send("File uploaded successfully");
+});
+
 router.post('/deviceSetup', async (req, res) => {
   try {
     const connection = connectionManager.getConnection();
