@@ -282,6 +282,7 @@ block content
             String colorswitch = "/switch/" + String(otatopic) + "/" + String(undertopic);
             Serial.println(colorswitch);
             mqttClient.subscribe(colorswitch.c_str());
+            mqttClient.publish(colorswitch.c_str(), "0xFBC0, text");
 
             // topics can be unsubscribed using:
             // mqttClient.unsubscribe(topic);
