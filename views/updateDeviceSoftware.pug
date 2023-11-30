@@ -38,6 +38,7 @@ block content
 
 
     script.
+
         function hideViewPassword() {
             var x = document.getElementById("PASSWORD");
             if (x.type === "password") {
@@ -155,6 +156,7 @@ block content
           int        port     = SECRET_PORT; // Loaded from arduino_secrets.h
           const char username[] = SECRET_UN; // Loaded from arduino_secrets.h
           const char password[] = SECRET_PW; // Loaded from arduino_secrets.h
+          const char undertopic[] = "color"; // Loaded from arduino_secrets.h
 
           WiFiClient    wifiClient;  // HTTP
           WiFiSSLClient wifiClientSSL;  // HTTPS
@@ -276,6 +278,11 @@ block content
             // subscribe to a topic
             mqttClient.subscribe(otatopic);
 
+            Serial.print("Subscribing to subtopic: ");
+            String colorswitch = "/switch/" + String(otatopic) + "/" + String(undertopic);
+            Serial.println(colorswitch);
+            mqttClient.subscribe(colorswitch.c_str());
+            mqttClient.publish(colorswitch.c_str(), "0xFBC0, text");
 
             // topics can be unsubscribed using:
             // mqttClient.unsubscribe(topic);
@@ -312,27 +319,31 @@ block content
 
           void callback(char* topic, byte* payload, unsigned int length) {
             // we received a message, print out the topic and contents
-            Serial.println("Received a message with topic '");
-            Serial.print(topic);
-            Serial.print("', length ");
-            Serial.print(length);
-            Serial.println(" bytes:");
+              String colorswitch = "/switch/" + String(otatopic) + "/" + String(undertopic);
+              Serial.println("Received a message with topic '");
+              Serial.print(topic);
+              Serial.print("', length ");
+              Serial.print(length);
+              Serial.println(" bytes:");
+              Serial.print("Payload: ");
 
-            Serial.print("Payload: ");
-            char messageBuffer[length - 1];
+              char messageBuffer[length + 1]; // Include space for null terminator
 
+              for (int i = 0; i < length; i++) {
+                messageBuffer[i] = (char)payload[i];
+              }
+              messageBuffer[length] = '\\0';
 
-            for (int i = 0; i < length; i++) {
-              messageBuffer[i] = (char)payload[i];
-            }
-            messageBuffer[length] = '\\0';
+              if (strcmp(topic, otatopic) == 0) {
+                // Call the function and pass the message buffer
+                handleSketchDownload(messageBuffer);
+              } else if (strcmp(topic, colorswitch.c_str()) == 0) {
+                  long colorValue = strtol(messageBuffer, nullptr, 16);
+                  carrier.display.fillScreen(static_cast<uint16_t>(colorValue));
+                  String coloranswer = String(colorswitch) + "/light";
+                  mqttClient.publish(coloranswer.c_str(), "Success");
 
-
-
-            // Call the function and pass the message buffer
-            handleSketchDownload(messageBuffer);
-
-
+              }
           }
             `;
         }
