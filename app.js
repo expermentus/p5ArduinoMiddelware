@@ -8,6 +8,7 @@ var mysql = require('mysql2');
 var env = require('dotenv');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+const connectionManager = require('./connectionManager');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -49,28 +50,46 @@ global.mes2 = "Not defined yet";
 global.listMes = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 global.listMes2 = ["1", "2", "3", "1", "2", "3", "3", "1", "2", "3"];
 
+const pool = connectionManager.getConnection();
+
 // Callback function to handle incoming messages
 mqttClient.on('message', (topic, message) => {
   console.log(`Received message on topic '${topic}': ${message.toString()}`);
-  if (topic.toString() === 'sensor'){
-    global.mes =  message.toString();
-    listMes.push(mes)
-    if (listMes.length > 10) {
-      listMes.shift(); // Remove the oldest item
-    }
-  } else {
-    global.mes2 = message.toString();
-    listMes2.push(mes2)
-    if (listMes2.length > 10) {
-      listMes2.shift(); // Remove the oldest item
-    }
+
+  // Extract device name from topic
+  const topicParts = topic.split('/');
+  if (topicParts.length < 3 || topicParts[1] !== 'sensor') {
+    console.error('Invalid topic format');
+    return;
   }
+
+  const deviceName = topicParts[2];
+  const dataName = topicParts[3]; // Assuming the data type is the last part of the topic
+
+  // Query the device_id from the devices table using the deviceName
+  const selectDeviceQuery = 'SELECT id FROM devices WHERE topic = ?';
+  pool.query(selectDeviceQuery, [deviceName], (error, deviceRows) => {
+    if (error) {
+      console.error('Error querying device:', error);
+      return;
+    }
+
+    if (deviceRows.length === 0) {
+      console.error('Device not found:', deviceName);
+      return;
+    }
+
+    const deviceId = deviceRows[0].id;
+    const reading = parseFloat(message.toString()); // Convert the message to a number
+
+    // Insert data into sensor_data table
+    insertSensorData(deviceId, dataName, reading);
+  });
 });
 
 // Connect to the MQTT broker
 mqttClient.on('connect', () => {
   console.log('Connected to MQTT broker');
-
   // Subscribe to the specified topics
   topics.forEach((topic) => {
     mqttClient.subscribe(topic, (err) => {
@@ -108,7 +127,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
-const connectionManager = require('./connectionManager');
+
 const fs = require("fs"); // Replace with the actual path to your ConnectionManager module
 
 const connection = connectionManager.getConnection();
@@ -136,5 +155,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// Function to insert data into sensor_data table
+function insertSensorData(deviceId, dataName, reading) {
+  const query = 'INSERT INTO sensor_data (device_id, data_name, reading) VALUES (?, ?, ?)';
+  const values = [deviceId, dataName, reading];
 
+  pool.query(query, values, (error, result) => {
+    if (error) {
+      console.error('Error inserting into sensor_data:', error);
+    } else {
+      console.log('Inserted into sensor_data:', result.insertId);
+    }
+  });
+}
 module.exports = app;
