@@ -80,7 +80,7 @@ router.post('/deviceSetup', async (req, res) => {
       }
 
       console.log('Data inserted into the database');
-      const insertedData = {
+      insertedData = {
         choice: '1',
         ssid: ssid,
         password: ssid_pass,
