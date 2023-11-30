@@ -13,13 +13,18 @@ router.get('/', function(req, res, next) {
   // Query to select data from the 'sensor_data' table joined with 'devices'
   const sensorDataQuery = 'SELECT devices.name AS device_name, sensor_data.data_name, sensor_data.reading FROM devices RIGHT JOIN sensor_data ON devices.id = sensor_data.device_id';
 
+  // Query to select data from the 'sensor_data' table joined with 'devices'
+  const switchQuery = 'SELECT * FROM switch_data';
+
+
   // Execute both queries using Promise.all
   Promise.all([
     queryPromise(connection, devicesQuery),
-    queryPromise(connection, sensorDataQuery)
+    queryPromise(connection, sensorDataQuery),
+    queryPromise(connection, switchQuery)
   ])
-      .then(([devicesResults, sensorDataResults]) => {
-        res.render('heartBeat', { devices: devicesResults, sensorData: sensorDataResults });
+      .then(([devicesResults, sensorDataResults, switchResults]) => {
+        res.render('heartBeat', { devices: devicesResults, sensorData: sensorDataResults, switchData: switchResults });
       })
       .catch(error => {
         console.error('Error loading data:', error);
