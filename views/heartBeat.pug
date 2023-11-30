@@ -8,21 +8,26 @@ block content
     ul
         each item in devices
             - var knownData = "null"
+            - var shown = "null"
             if item.status === "Configured"
                 div(class='cartoon-container')
                     p
                         b(style="font-size: 18px;") #{item.name}
                             button.button(onclick=`redirectTo('/update?topic=${item.topic}')`)
                                 span.text Reconfigure
-                        div(class='cartoon-container' style=`height: 240px; margin-bottom: 10px; position: static`)
-                            each input in switchData
-                                if input.device_id === item.id
-                                    if input.data_type === "text"
-                                        input(type="textfield", value=`${input.data_type}` method='POST' action='/updateStatus' style=`height: 40px; margin-right: 40px`)
-                                        button.button-confirm() click here
-                                    else if input.data_type === "boolean"
-                                        div(class='container')
-                                            input.button-confirm(type="checkbox", value=`${input.data_type} ` method='POST' action='/updateStatus')
+                        each inputDATA in switchData
+                            if item.id === inputDATA.device_id
+                                if shown !== "known"
+                                    - shown = "known"
+                                    div(class='cartoon-container' style=`height: auto; width: 350px; margin-bottom: 10px; position: static; padding-top: -10px`)
+                                        each input in switchData
+                                            if input.device_id === item.id
+                                                if input.data_type === "text"
+                                                    input(type="textfield", value=`${input.reading}` method='POST' action='/updateStatus' style=`height: 40px; margin-right: 10px`)
+                                                    button.button-confirm() click here
+                                                else if input.data_type === "boolean"
+                                                    div(class='container')
+                                                        input.button-confirm(type="checkbox", value=`${input.reading} ` method='POST' action='/updateStatus')
                     div(class='cartoon-container left')
                         div(class='container-wrapper')
                             div(class='container-left')
