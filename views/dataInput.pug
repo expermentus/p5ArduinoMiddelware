@@ -24,14 +24,16 @@ block content
                                             if input.device_id === item.id
                                                 if input.data_type === "text"
                                                     form(method='POST', action='/updateStatus')
-                                                        input(type="textfield", value=`${input.reading}`, name="textValue", style=`height: 40px; margin-right: 10px`)
+                                                        input(type="string", hidden=true, name="switchName", id="switchName", value=`${input.switch_name}`)
+                                                        input(type="textfield", value=`${input.reading}`, name="textValue", id="reading" style=`height: 40px; margin-right: 10px`)
                                                         input(type="string", hidden=true, name="deviceName", value=`${item.device_name}`)
                                                         button.button-confirm() click here
                                                 else if input.data_type === "boolean"
                                                     div(class='container')
                                                         form(method='POST', action='/updateStatus')
-                                                            input(type="string", hidden=true, name="deviceName", value=`${item.device_name}`)
-                                                            input.button-confirm(type="checkbox", value=`${input.reading}`, name="checkboxValue", onchange="this.form.submit()")
+                                                            input(type="string", hidden=true, name="switchName", id="switchName", value=`${input.switch_name}`)
+                                                            input(type="string", hidden=true, name="deviceName", id="deviceName" value=`${item.device_name}`)
+                                                            input.button-confirm(type="checkbox", value=`${input.reading}`, name="checkboxValue", id="reading" onchange="this.form.submit()")
                     div(class='cartoon-container left')
                         div(class='container-wrapper')
                             div(class='container-left')
