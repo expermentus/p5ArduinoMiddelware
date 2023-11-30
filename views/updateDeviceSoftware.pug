@@ -11,7 +11,7 @@ block content
                 form(method='POST', action='/updateDeviceSoftware')
                     textarea(placeholder='Write your code here...', id="contentTextarea", class='cartoon-container', style="width: 1000px")
                 div(class='horizontal-container')
-                    button.button(onclick=`updateCode('${device_topic}')`, )
+                    button.button(onclick=`updateCode('${device_topic}')`, style='width: auto; height: auto;')
                         span.text Update #{device_topic}
                 div(class='horizontal-container')
                     input(type= 'text', placeholder='WiFi SSID', id="SSID", class='cartoon-container', style='width: 100px')
