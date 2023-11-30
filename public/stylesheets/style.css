@@ -44,6 +44,11 @@ body {
   width: 150px;
 }
 
+.right {
+  right: 0%;
+  position: relative;
+}
+
 /* Add any other styles as needed */
 
 textarea {

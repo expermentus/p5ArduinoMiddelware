@@ -14,19 +14,15 @@ block content
                         b(style="font-size: 18px;") #{item.name}
                             button.button(onclick=`redirectTo('/update?topic=${item.topic}')`)
                                 span.text Reconfigure
-                        each input in switchData
-                            if input.device_id === item.id
-                                if input.data_type === "text"
-                                    div(class='container-right')
-                                        form.form(method='POST' action='/updateStatus')
-                                            input(type="textfield", value=`${input.data_type}`)
-                                            button.button-confirm()
-                                                span
-                                                    | #{input.data_type}
-                                else if input.data_type === "boolean"
-                                    div(class='container-right')
-                                        form.form(method='POST' action='/updateStatus')
-                                            input.button-confirm(type="checkbox", value=`${input.data_type}`)
+                        div(class='cartoon-container' style=`height: 240px; margin-bottom: 10px; position: static`)
+                            each input in switchData
+                                if input.device_id === item.id
+                                    if input.data_type === "text"
+                                        input(type="textfield", value=`${input.data_type}` method='POST' action='/updateStatus' style=`height: 40px; margin-right: 40px`)
+                                        button.button-confirm() click here
+                                    else if input.data_type === "boolean"
+                                        div(class='container')
+                                            input.button-confirm(type="checkbox", value=`${input.data_type} ` method='POST' action='/updateStatus')
                     div(class='cartoon-container left')
                         div(class='container-wrapper')
                             div(class='container-left')
