@@ -6,8 +6,8 @@ block content
             span.text Refresh
 
     ul
-        - var knownData = ""
         each item in devices
+            - var knownData = "null"
             if item.status === "Configured"
                 div(class='cartoon-container')
                     p
@@ -17,19 +17,33 @@ block content
 
                     div(class='cartoon-container left')
                         div(class='container-wrapper')
-                            each data in sensorData
-                                if item.name ==data.device_name
-                                    if data.data_name !== knownData
-                                        - knownData = data.data_name
-                                        div(class='container-left')
-                                            div(id='list-container-left', class='list-element')
+                            div(class='container-left')
+                                div(id='list-container-left', class='list-element')
+                                    each data in sensorData
+                                        if item.name === data.device_name
+                                            if data.data_name === knownData
                                                 ul
-                                                    li= data.data_name + ': ' + data.reading
-                                    else
-                                        div(class='container-right')
-                                            div(id='list-container-right', class='list-element')
+                                                    li
+                                                        | #{data.data_name}:
+                                                        br
+                                                        | #{data.reading}
+                                            else if knownData === "null"
+                                                - knownData = data.data_name
                                                 ul
-                                                    li= data.data_name + ': ' + data.reading
+                                                    li
+                                                        | #{data.data_name}:
+                                                        br
+                                                        | #{data.reading}
+                            div(class='container-right')
+                                div(id='list-container-right', class='list-element')
+                                    each data in sensorData
+                                        if item.name === data.device_name
+                                            if data.data_name !== knownData
+                                                ul
+                                                    li
+                                                        | #{data.data_name}:
+                                                        br
+                                                        | #{data.reading}
 
     script.
         function refreshPage() {
