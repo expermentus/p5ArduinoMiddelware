@@ -142,7 +142,7 @@ block content
           int        port     = SECRET_PORT; // Loaded from arduino_secrets.h
           const char username[] = SECRET_UN; // Loaded from arduino_secrets.h
           const char password[] = SECRET_PW; // Loaded from arduino_secrets.h
-          const char undertopic[] = SECRET_UT; // Loaded from arduino_secrets.h
+          const char undertopic[] = "color"; // Loaded from arduino_secrets.h
 
           WiFiClient    wifiClient;  // HTTP
           WiFiSSLClient wifiClientSSL;  // HTTPS
@@ -265,7 +265,7 @@ block content
             mqttClient.subscribe(otatopic);
 
             Serial.print("Subscribing to subtopic: ");
-            String colorswitch = "/sensor/switch/" + String(otatopic) + "/" + String(undertopic);
+            String colorswitch = "/switch/" + String(otatopic) + "/" + String(undertopic);
             Serial.println(colorswitch);
             mqttClient.subscribe(colorswitch.c_str());
 
@@ -304,7 +304,7 @@ block content
 
           void callback(char* topic, byte* payload, unsigned int length) {
             // we received a message, print out the topic and contents
-              String colorswitch = "/sensor/switch/" + String(otatopic) + "/" + String(undertopic);
+              String colorswitch = "/switch/" + String(otatopic) + "/" + String(undertopic);
               Serial.println("Received a message with topic '");
               Serial.print(topic);
               Serial.print("', length ");
@@ -325,6 +325,9 @@ block content
               } else if (strcmp(topic, colorswitch.c_str()) == 0) {
                   long colorValue = strtol(messageBuffer, nullptr, 16);
                   carrier.display.fillScreen(static_cast<uint16_t>(colorValue));
+                  String coloranswer = String(colorswitch) + "/light";
+                  mqttClient.publish(coloranswer.c_str(), "Success");
+
               }
           }
             `;
