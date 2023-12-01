@@ -48,19 +48,14 @@ def SetupArduinos():
     arduino_name = ''
     arduino_port = ''
 
-    while 1:
-        if len(arduinos) == 0:
-            print('No arduinos')
-            break
+    if len(arduinos) == 0:
+        print('No arduinos')
 
-        elif arduino[1].serial_number == data['serial_number']:
-            print('Arduino already configured')
-            break
+    elif arduino[1].serial_number == data['serial_number']:
 
         try:
             arduino_name = str(re.sub(r"['\[\]]", "", str(arduino[0])))
             arduino_port = str(arduino[1].name)  # .name or .device
-            break
 
         except IndexError:
             print("index out of range")
