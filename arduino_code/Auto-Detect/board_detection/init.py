@@ -47,18 +47,22 @@ def SetupArduinos():
     arduino = arduinos[choice - 1]
     arduino_name = ''
     arduino_port = ''
+    while 1:
 
-    if len(arduinos) == 0:
-        print('No arduinos')
+        if len(arduinos) == 0:
+            print('No arduinos')
+            break
 
-    elif arduino[1].serial_number == data['serial_number']:
+        elif arduino[1].serial_number == data['serial_number']:
 
-        try:
-            arduino_name = str(re.sub(r"['\[\]]", "", str(arduino[0])))
-            arduino_port = str(arduino[1].name)  # .name or .device
+            try:
+                arduino_name = str(re.sub(r"['\[\]]", "", str(arduino[0])))
+                arduino_port = str(arduino[1].name)  # .name or .device
 
-        except IndexError:
-            print("index out of range")
+            except IndexError:
+                print("index out of range")
+
+            break
 
     compiler = Compiler(cli_path='arduino-cli_0.34.2_Windows_64bit/arduino-cli.exe',
                         sketch_path='init_sketch',
