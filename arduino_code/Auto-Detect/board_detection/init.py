@@ -50,11 +50,16 @@ def SetupArduinos():
 
     while 1:
         if len(arduinos) == 0:
+            print('No arduinos')
+            break
+
+        elif arduino[1].serial_number == data['serial_number']:
+            print('Arduino already configured')
             break
 
         try:
-            arduino_name = str(re.sub(r"['\[\]]", "", str(arduinos[0][0])))
-            arduino_port = str(arduinos[0][1].name)  # .name or .device
+            arduino_name = str(re.sub(r"['\[\]]", "", str(arduino[0])))
+            arduino_port = str(arduino[1].name)  # .name or .device
             break
 
         except IndexError:
@@ -78,10 +83,6 @@ def SetupArduinos():
         return False
 
 
-def run():
-    SetupArduinos()
-
-
 # Running the client
 if __name__ == "__main__":
-    run()
+    SetupArduinos()

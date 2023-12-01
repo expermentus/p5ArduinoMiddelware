@@ -46,17 +46,11 @@ def receive_json():
         # No data
         return False
 
-    data = {
-        'choice': json.get('choice', None),
-        'ssid': json.get('ssid', None),
-        'password': json.get('password', None),
-        'stopic': json.get('stopic', None)
-    }
-
     return json
 
 
 if __name__ == "__main__":
+    # for testing
     arduinos, noarduinos = check_ports()
     for arduino in arduinos:
         print(arduino[0])
