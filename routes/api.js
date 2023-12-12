@@ -24,7 +24,6 @@ router.post('/test', function(req, res, next) {
 
         // Check if the parsed data is an array
         if (Array.isArray(parsedData)) {
-            arduinos = []
             // Iterate over each object in the array
             parsedData.forEach(item => {
                 // Check if the object has 'arduino' property
