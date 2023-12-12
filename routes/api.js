@@ -29,7 +29,7 @@ router.post('/test', function(req, res, next) {
                 // Check if the object has 'arduino' property
                 if (item.hasOwnProperty('arduino') && Array.isArray(item.arduino)) {
                     // Add each Arduino model to the global array 'arduinos'
-                    arduinos.push(item.arduino)
+                    arduinos = item.arduino
                 }
             });
         } else {

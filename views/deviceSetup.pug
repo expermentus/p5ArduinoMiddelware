@@ -4,9 +4,8 @@ block content
     div(class='text-center center-div')
         h1 List of discovered devices
     - var index = 0;
-    - var secoundIndex = 0;
     each item in arduinos
-        if item[index][1] === "discovered"
+        if item[1] === "discovered"
             div.form-container(style="display: none;" id=item[0])
                 div(class='text-center center')
                     form.form(method='POST' action='/deviceSetup')
