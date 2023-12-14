@@ -53,7 +53,7 @@ def SetupArduinos():
             print('No arduinos')
             break
 
-        elif arduino[1].serial_number == data['serial_number']:
+        elif arduino[1].serial_number == data['serial']:
 
             try:
                 arduino_name = str(re.sub(r"['\[\]]", "", str(arduino[0])))
