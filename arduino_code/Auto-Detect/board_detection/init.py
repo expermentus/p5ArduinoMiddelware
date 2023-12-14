@@ -14,6 +14,9 @@ def SetupArduinos():
         print('No arduinos found')
         return False
 
+    for arduino in arduinos:
+        print(arduino)
+
     send_json(arduinos)
 
     while 1:
